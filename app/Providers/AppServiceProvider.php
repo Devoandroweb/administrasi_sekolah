@@ -27,19 +27,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        config(['app.locale' => 'id']);
-        Carbon::setLocale('id');
-        $agent = new \Jenssegers\Agent\Agent;
-        $result = $agent->isMobile();
-        if ($result) {
-            abort(222);
-        }
         
-        try {
-            DB::connection()
-                ->getPdo();
-        } catch (Exception $e) {
-            abort($e instanceof PDOException ? 503 : 500);
-        }
+        
+        
     }
 }

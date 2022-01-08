@@ -150,11 +150,7 @@ $tahun_ajaran = DB::table('tahun_ajaran')->select("*")->first();
           ?>
         </a>
       </div>
-      @if(Auth::user()->role == 2)
-      @include("template.sidebar-administrasi")
-      @elseif(Auth::user()->role == 1)
-      @include("template.sidebar-admin")
-      @endif
+      @include("template.sidebar")
     </div>
     <div class="main-panel">
       <!-- Navbar -->
