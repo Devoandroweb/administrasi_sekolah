@@ -11,6 +11,7 @@
       <h4 class="card-title">Administrasi</h4>
     </div>
     <a href="cetak_administrasi" target="_blank" class="btn btn-info float-right pl-2 mr-1 print_excel"><i class="material-icons">print</i>Cetak</a>
+    <a href="cetak_administrasi" class="btn btn-info float-right pl-2 mr-1"><i class="material-icons">print</i>Tambah</a>
   </div>
   <div class="card-body">
     <table class="table w-100" id="datatable_administrasi">
@@ -52,20 +53,15 @@
             @csrf
             <div class="card-body">
 
-              <div class="form-group bmd-form-group">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">
-                      <i class="material-icons">face</i>
-                    </span>
-                  </div>
-                  <input type="text" name="nama" class="form-control pl-2" placeholder="0" readonly="">
-                </div>
+              <div class="box-dashed">
+                <input type="text" name="nama">
               </div>
 
-              <div class="form-group">
-                <label>Nama Jenis</label>
-                <input type="text" value="" name="nama" class="form-control" />
+              <div class="my-2">
+                <!-- target input -->
+                <table class="table w-100" id="target-input">
+
+                </table>
               </div>
             </div>
           </form>
@@ -88,6 +84,8 @@
   jQuery(document).ready(function() {
     read_data();
     var id = 0;
+    var jenisAdm = <?= json_encode($jenis_adm_array) ?>;
+    console.log(jenisAdm);
 
     function read_data() {
       $('#datatable_administrasi').DataTable({
@@ -136,32 +134,53 @@
       event.preventDefault();
       /* Act on the event */
       id = $(this).attr('id');
-      var token = $('input[name=_token]').val();
 
       $.ajax({
-          url: '/read_adm_by/' + id,
+          url: '{{url("read_adm_by")}}/' + id,
           type: 'POST',
           dataType: 'JSON',
-          data: {
-            _token: token
-          },
         })
         .done(function(data) {
           console.log(data);
           $('input[name=nama]').val(data.nama);
-          $('input[name=up_spp]').val(data.spp);
-          $('input[name=up_psb]').val(data.psb);
-          $('input[name=up_uts_1]').val(data.uts_1);
-          $('input[name=up_uts_2]').val(data.uts_2);
-          $('input[name=up_pas_1]').val(data.pas_1);
-          $('input[name=up_pas_2]').val(data.pas_2);
-          $('input[name=up_lks_1]').val(data.lks_1);
-          $('input[name=up_lks_2]').val(data.lks_2);
-          $('input[name=up_unas]').val(data.unas);
-          $('input[name=up_daftar_ulang]').val(data.daftar_ulang);
-          $('input[name=up_spp],input[name=up_psb],input[name=up_uts_1],input[name=up_uts_2],input[name=up_pas_1],input[name=up_pas_2],input[name=up_lks_1],input[name=up_lks_2],input[name=up_unas],input[name=up_daftar_ulang]').autoNumeric('init', {
-            aPad: false
-          });
+          var adm = JSON.parse(data.value);
+          var html = "";
+          console.log(Object.keys(adm).length);
+          for (var i = 0; i < Object.keys(adm).length; i++) {
+
+            html += '<tr>' +
+              '<td>' + adm[i].nama_adm + '</td>' +
+              '<td>:</td>' +
+              '<td>' +
+              '<input type="hidden" name="id_adm[]" value="' + adm[i].id_jenis_adm + '">' +
+              '<input type="hidden" class="form-control text-right" name="nama_adm[]" value="' + adm[i].nama_adm + '">' +
+              '<input type="text" class="form-control text-right" name="value_adm[]" value="' + adm[i].value_adm + '"></td>' +
+              '</tr>';
+            console.log("id jenis adm : " + jenisAdm[i].id)
+            // if (jenisAdm.indexOf(adm[i].id_jenis_adm) != -1) {
+            //   // element found
+            // }
+            var index = -1;
+            for (var j = 0; j < jenisAdm.length; j++) {
+              if (jenisAdm[j].id == adm[i].id_jenis_adm) {
+                index = j;
+              }
+            }
+            if (index !== -1) {
+              jenisAdm.splice(index, 1);
+            }
+            console.log(jenisAdm);
+            console.log("index ----> " + index);
+          }
+          for (var k = 0; k < jenisAdm.length; k++) {
+            html += '<tr>' +
+              '<td>' + jenisAdm[k].nama + '</td>' +
+              '<td>:</td>' +
+              '<td><input type="hidden" name="id_adm[]" value="' + jenisAdm[k].id + '"><input type="hidden" name="nama_adm[]" value="' + jenisAdm[k].nama + '"><input type="text" name="value_adm[]" class="form-control text-right" value="0"></td>' +
+              '</tr>';
+          }
+
+          $('#target-input').html(html);
           $('#modaEditAdministrasi').modal('show');
         })
         .fail(function() {
@@ -175,25 +194,13 @@
       /* Act on the event */
       // $('#form_update input').autoNumeric('init');
       // $('#form_update input').autoNumeric('destroy');
-
+      var data = $("#modaEditAdministrasi").find("form").serialize();
       console.log(id);
       $.ajax({
-          url: '/simpan_edit_adm/' + id,
+          url: '{{url("simpan_edit_adm")}}/' + id,
           type: 'POST',
           dataType: 'JSON',
-          data: {
-            _token: '{{ csrf_token() }}',
-            spp: $('input[name=up_spp]').val(),
-            psb: $('input[name=up_psb]').val(),
-            uts_1: $('input[name=up_uts_1]').val(),
-            uts_2: $('input[name=up_uts_2]').val(),
-            pas_1: $('input[name=up_pas_1]').val(),
-            pas_2: $('input[name=up_pas_2]').val(),
-            lks_1: $('input[name=up_lks_1]').val(),
-            lks_2: $('input[name=up_lks_2]').val(),
-            unas: $('input[name=up_unas]').val(),
-            daftar_ulang: $('input[name=up_daftar_ulang]').val()
-          },
+          data: data,
         })
         .done(function() {
           $('#datatable_administrasi').DataTable().destroy();

@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
 use DataTables;
 use App\Helpers\Time;
+use App\Models\MJenisAdministrasi;
 
 class SiswaController extends Controller
 {
@@ -67,6 +68,21 @@ class SiswaController extends Controller
 
         $administrasi = new Administrasi;
         $administrasi->id_siswa = $siswa->id_siswa;
+
+
+        //baca jenis_administrasi
+        //lalu looping
+        $administrasiSiswa = [];
+
+        $mJenisAdministrasi = MJenisAdministrasi::get();
+        foreach ($mJenisAdministrasi as $key) {
+            $administrasiSiswa[] = array(
+                "id_jenis_adm" => $key->id,
+                "nama_adm" => $key->nama,
+                "value_adm" => 0
+            );
+        }
+        $administrasi->value = json_encode($administrasiSiswa);
         $administrasi->save();
         return json_encode(array(
             "statusCode" => 200
@@ -84,7 +100,6 @@ class SiswaController extends Controller
         $arr = DataSiswa::where('id_administrasi', $id)->first();
 
         echo json_encode($arr);
-        exit();
     }
 
     /**
@@ -100,8 +115,7 @@ class SiswaController extends Controller
 
 
         $data = array('data_siswa' => $arr, 'tanggal_lahir' => $tgl_lahir);
-        echo json_encode($data);
-        exit();
+        return json_encode($data);
     }
 
     /**

@@ -34,7 +34,7 @@
           <th class="font-weight-bold">NISN</th>
           <th class="font-weight-bold">Nama</th>
           <th class="font-weight-bold">Kelas</th>
-          <th class="font-weight-bold">Rombel</th>
+          <th class="font-weight-bold">Jurusan</th>
           <th class="font-weight-bold">Actions</th>
         </tr>
       </thead>
@@ -49,7 +49,7 @@
 
 
 
-@include("siswa.modal");
+@include("administrasi.siswa.modal");
 
 @endsection
 @push('javascript')
@@ -267,7 +267,7 @@
           var id = $(this).attr('id');
           var token = '{{ csrf_token() }}';
           $.ajax({
-              url: '/delete_siswa/' + id,
+              url: '{{url("delete_siswa")}}/' + id,
               type: 'POST',
               dataType: 'JSON',
               data: {

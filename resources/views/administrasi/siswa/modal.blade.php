@@ -21,7 +21,7 @@
                                 <div class="col-sm-6">
 
                                     <div class="form-group bmd-form-group">
-                                        <div class="input-group">
+                                        <div class="input-group" tooltip="Nama Siswa">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text"><i class="material-icons">face</i></div>
                                             </div>
@@ -30,7 +30,7 @@
                                     </div>
 
                                     <div class="form-group bmd-form-group">
-                                        <div class="input-group">
+                                        <div class="input-group" tooltip="Tempat Lahir">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text"><i class="material-icons">house</i></div>
                                             </div>
@@ -39,7 +39,7 @@
                                     </div>
 
                                     <div class="form-group bmd-form-group">
-                                        <div class="input-group">
+                                        <div class="input-group" tooltip="Tanggal Lahir">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text"><i class="material-icons">event_available</i></div>
                                             </div>
@@ -47,7 +47,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group bmd-form-group">
-                                        <div class="input-group">
+                                        <div class="input-group" tooltip="Nomer Induk Siswa National">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text"><i class="material-icons">reduce_capacity</i></div>
                                             </div>
@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
-                                        <div class="input-group">
+                                        <div class="input-group" tooltip="Nomer Induk Sekolah">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text"><i class="material-icons">stop_circle</i></div>
                                             </div>
@@ -65,7 +65,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group bmd-form-group">
-                                        <div class="input-group">
+                                        <div class="input-group" tooltip="Kelas Berapa?">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text"><i class="material-icons">class</i></div>
                                             </div>
@@ -73,7 +73,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group bmd-form-group">
-                                        <div class="input-group">
+                                        <div class="input-group" tooltip="Rombelnya Apa?">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text"><i class="material-icons">school</i></div>
                                             </div>
@@ -81,7 +81,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group bmd-form-group">
-                                        <div class="input-group">
+                                        <div class="input-group" tooltip="Nomer Telepon">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text"><i class="material-icons">phone_in_talk</i></div>
                                             </div>
@@ -93,7 +93,7 @@
 
 
                             <div class="form-group bmd-form-group">
-                                <div class="input-group">
+                                <div class="input-group" tooltip="Alamat">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"><i class="material-icons">add_location_alt</i></div>
                                     </div>
@@ -113,7 +113,7 @@
 </div>
 <!-- modal edit -->
 <div class="modal fade" id="modalEdit">
-    <div class="modal-dialog modal-login" role="document">
+    <div class="modal-dialog modal-login modal-lg" role="document">
         <div class="modal-content">
             <div class="d-block p-4">
                 <h5 class="float-left d-flex">Edit Siswa</h5>
@@ -127,59 +127,67 @@
 
                     @csrf
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group bmd-form-group">
+                                    <div class="input-group" tooltip="Nama Siswa">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="material-icons">face</i></div>
+                                        </div>
+                                        <input type="text" name="up_nama" class="form-control" placeholder="Nama Siswa" required="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group bmd-form-group">
+                                    <div class="input-group" tooltip="Tempat Lahir">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="material-icons">house</i></div>
+                                        </div>
+                                        <input type="text" name="up_tmp_lahir" class="form-control" placeholder="Tempat Lahir" required="">
+                                    </div>
+                                </div>
+                                <div class="form-group bmd-form-group">
+                                    <div class="input-group" tooltip="Tanggal Lahir">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="material-icons">event_available</i></div>
+                                        </div>
+                                        <input type="date" class="form-control" name="up_tgl_lahir" required="">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col">
+
+                                <div class="form-group bmd-form-group">
+                                    <div class="input-group" tooltip="Nomer Induk Siswa National">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="material-icons">reduce_capacity</i></div>
+                                        </div>
+                                        <input type="number" class="form-control" name="up_nisn" placeholder="Nomer Induk Siswa National" maxlength="10" required="">
+                                    </div>
+                                </div>
+                                <div class="form-group bmd-form-group">
+                                    <div class="input-group" tooltip="Nomer Induk Sekolah">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="material-icons">stop_circle</i></div>
+                                        </div>
+                                        <input type="number" class="form-control" name="up_no_induk" placeholder="Nomer Induk Sekolah" required="">
+                                    </div>
+                                </div>
+                                <div class="form-group bmd-form-group">
+                                    <div class="input-group" tooltip="Nomer Telepon">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="material-icons">phone_in_talk</i></div>
+                                        </div>
+                                        <input type="number" class="form-control" name="up_no_tlp" placeholder="Nomer Telepon" required="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div class="form-group bmd-form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text"><i class="material-icons">face</i></div>
-                                </div>
-                                <input type="text" name="up_nama" class="form-control" placeholder="Nama Siswa" required="">
-                            </div>
-                        </div>
-
-                        <div class="form-group bmd-form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text"><i class="material-icons">house</i></div>
-                                </div>
-                                <input type="text" name="up_tmp_lahir" class="form-control" placeholder="Tempat Lahir" required="">
-                            </div>
-                        </div>
-
-                        <div class="form-group bmd-form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text"><i class="material-icons">event_available</i></div>
-                                </div>
-                                <input type="date" class="form-control" name="up_tgl_lahir" required="">
-                            </div>
-                        </div>
-                        <div class="form-group bmd-form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text"><i class="material-icons">reduce_capacity</i></div>
-                                </div>
-                                <input type="number" class="form-control" name="up_nisn" placeholder="Nomer Induk Siswa National" maxlength="10" required="">
-                            </div>
-                        </div>
-                        <div class="form-group bmd-form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text"><i class="material-icons">stop_circle</i></div>
-                                </div>
-                                <input type="number" class="form-control" name="up_no_induk" placeholder="Nomer Induk Sekolah" required="">
-                            </div>
-                        </div>
-                        <div class="form-group bmd-form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text"><i class="material-icons">phone_in_talk</i></div>
-                                </div>
-                                <input type="number" class="form-control" name="up_no_tlp" placeholder="Nomer Telepon" required="">
-                            </div>
-                        </div>
-                        <div class="form-group bmd-form-group">
-                            <div class="input-group">
+                            <div class="input-group" tooltip="Alamat">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text"><i class="material-icons">add_location_alt</i></div>
                                 </div>

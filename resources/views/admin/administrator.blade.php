@@ -1,14 +1,10 @@
 @extends('template/template',['active' => $active ?? '2','title' => $title])
-
-
-
-
 @section('content')
 
 <div class="card p-2">
     <div class="card-header card-header-text card-header-warning">
         <div class="card-text">
-            <h4 class="card-title">Administrator</h4>
+            <h4 class="card-title">{{$title}}</h4>
         </div>
         <a href="#" class="btn btn-danger float-right pl-2 mr-1 b-modal" data-type="tambah">
             <i class="material-icons">add</i>Tambah
@@ -50,7 +46,7 @@
                             <i class="material-icons">clear</i>
                         </button>
 
-                        <h4 class="card-title">Tambah Jenis Administrasi</h4>
+                        <h4 class="card-title">User Management</h4>
 
                     </div>
                 </div>
@@ -60,12 +56,26 @@
                         <div class="card-body">
                             <form action="">
                                 <div class="form-group">
-                                    <label>Nama Jenis</label>
+                                    <label>Nama</label>
                                     <input type="text" value="" name="nama" class="form-control" />
                                 </div>
                                 <div class="form-group">
-                                    <label>Nilai</label>
-                                    <input type="text" value="" name="nilai" class="form-control" />
+                                    <label>Email</label>
+                                    <input type="email" value="" name="email" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" value="" name="password" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Jenis Pengguna</label>
+                                    <select name="role" class="form-control">
+                                        <option disabled selected value="default">Pilih Jenis Pengguna</option>
+                                        <option value="1">Administrator</option>
+                                        <option value="2">Administrasi</option>
+                                        <option value="3">Siswa</option>
+                                        <option value="4">Guru</option>
+                                    </select>
                                 </div>
 
 
@@ -97,7 +107,7 @@
             serverSide: true,
 
             ajax: {
-                url: '{{ url("jenis-administrasi-datatable") }}',
+                url: '{{ url("user-management-datatable") }}',
             },
             rowReorder: {
                 selector: 'td:nth-child(2)'
@@ -110,12 +120,16 @@
                     searchable: false
                 },
                 {
-                    data: 'nama',
-                    name: 'nama'
+                    data: 'name',
+                    name: 'name'
                 },
                 {
-                    data: 'value',
-                    name: 'value'
+                    data: 'email',
+                    name: 'email'
+                },
+                {
+                    data: 'role_convert',
+                    name: 'role_convert'
                 },
                 {
                     data: 'action',
@@ -137,52 +151,97 @@
     //modal form
     $(document).on("click", ".b-modal", function() {
         var jmodal = $(this).data("type");
+        var id = $(this).attr("id");
 
         if (jmodal == "tambah") {
-            modal.find("input[name=nama]").val("");
-            modal.find("input[name=nilai]").val("");
+            modal.find('input[name=nama]').val("");
+            modal.find('input[name=email]').val("");
+            modal.find('input[name=password]').val("");
+            modal.find('button').attr('data-type', 'tambah');
             modal.modal("show");
         } else if (jmodal == "edit") {
-            var id = $(this).attr("id");
+            //ajax-edit
+            var id = $(this).attr('id');
             $.ajax({
-                type: "post",
-                url: "{{url('jenis-administrasi-show')}}/" + id,
+                type: "get",
+                url: "{{url('user-management-show')}}/" + id,
                 dataType: "json",
                 success: function(response) {
                     if (response.status) {
-                        modal.find("input[name=nama]").val(response.data.nama);
-                        modal.find("input[name=nilai]").val(response.data.value);
-                        modal.modal("show");
+                        modal.find('input[name=nama]').val(response.data.name);
+                        modal.find('input[name=email]').val(response.data.email);
+                        modal.find('input[name=password]').val(response.data.password);
+                        modal.find('button').attr('data-type', 'edit');
+                        modal.find('button').attr('id', id);
+                        var data = $(modal).find("form").serializeArray();
+                        formCheck(data, $(modal).find("form"));
+                        modal.modal('show');
+
                     }
+
                 }
             });
 
         }
     });
-    //ajax add
-    $(".btn-simpan").click(function() {
-        var data = $(".modal").find("form").serialize();
-        $.ajax({
-            type: "post",
-            url: "{{url('jenis-administrasi-add')}}",
-            data: data,
-            dataType: "json",
-            success: function(response) {
-                if (response.status) {
-                    modal.modal("hide");
-                    $('#datatable').DataTable().destroy();
-                    readData();
-                    var html = '<div class="alert alert-success" role="alert">' + response.msg + '</div>';
-                    $(".msg").html(html);
+    $(document).on('click', ".btn-simpan", function() {
+        var data = $(modal).find("form").serializeArray();
+        var checkForm = formCheck(data, $(modal).find("form"));
+        var type = $(this).attr("data-type");
+        var id = $(this).attr("id");
+        console.log(type);
+        if (checkForm) {
+            if (type == 'tambah') {
+                //ajax add
+                $.ajax({
+                    type: "post",
+                    url: "{{url('user-management-add')}}",
+                    data: data,
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.status) {
+                            modal.modal("hide");
+                            $('#datatable').DataTable().destroy();
+                            readData();
+                            var html = '<div class="alert alert-success" role="alert">' + response.msg + '</div>';
+                            $(".msg").html(html);
+                            modal.modal('hide');
+                        } else {
+                            var html = '<div class="alert alert-danger" role="alert">' + response.msg + '</div>';
+                            $(".msg").html(html);
+                        }
 
-                } else {
-                    var html = '<div class="alert alert-danger" role="alert">' + response.msg + '</div>';
-                    $(".msg").html(html);
-                }
+                    }
+                });
+            } else if (type == 'edit') {
+                $.ajax({
+                    type: "post",
+                    url: "{{url('user-management-save-update')}}/" + id,
+                    data: data,
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.status) {
+                            modal.modal("hide");
+                            $('#datatable').DataTable().destroy();
+                            readData();
+                            var html = '<div class="alert alert-success" role="alert">' + response.msg + '</div>';
+                            $(".msg").html(html);
+                            modal.modal('hide');
+                        } else {
+                            var html = '<div class="alert alert-danger" role="alert">' + response.msg + '</div>';
+                            $(".msg").html(html);
+                        }
 
+                    }
+                });
             }
-        });
+
+        }
+
     });
+
+
+
     //hapus
     $(document).on("click", ".btn-delete", function(e) {
         e.preventDefault();

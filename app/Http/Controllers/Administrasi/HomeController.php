@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DataSiswa;
 use App\Models\MAdministrasi;
+use App\Models\MJenisAdministrasi;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -18,7 +19,7 @@ class HomeController extends Controller
         $total_siswa_alumni = DB::table('data_siswa')->where('kelas', '=', 0)->count();
 
         $data_pemasukan = DB::table('pemasukan')
-            ->join('data_siswa', 'pemasukan.no_induk_siswa', '=', 'data_siswa.no_induk')
+            ->join('data_siswa', 'pemasukan.id_siswa', '=', 'data_siswa.id_siswa')
             ->select('pemasukan.*', 'data_siswa.nama', 'data_siswa.kelas', 'data_siswa.rombel')
             ->orderBy('id_pemasukan', 'desc')
             ->limit(3)
@@ -95,10 +96,16 @@ class HomeController extends Controller
     public function administrasi()
     {
         $data = MAdministrasi::get();
-
+        $jenisAdm = MJenisAdministrasi::where('deleted', 1)->get();
+        $jenisAdmArray = [];
+        foreach ($jenisAdm as $key) {
+            array_push($jenisAdmArray, ['id' => $key->id, 'nama' => $key->nama]);
+        }
+        // dd($jenisAdmArray);
         return view('administrasi.administrasi')
             ->with('active', '4')
             ->with('title', 'Administrasi')
+            ->with('jenis_adm_array', $jenisAdmArray)
             ->with('ijazah', $data);
     }
     public function tanggungan_ijazah()

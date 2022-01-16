@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
 use App\Models\Administrasi;
 use App\Models\MAdministrasi;
+use App\Models\MJenisAdministrasi;
 use DataTables;
 use PDF;
 
@@ -71,12 +72,18 @@ class AdministrasiController extends Controller
     {
         //
         $data_administrasi = MAdministrasi::select('administrasi.*', 'data_siswa.nama')
-            ->join('data_siswa', 'administrasi.no_induk_adm', '=', 'data_siswa.no_induk')
-            ->where('siswa', $id)
+            ->join('data_siswa', 'administrasi.id_siswa', '=', 'data_siswa.id_siswa')
+            ->where('id_siswa', $id)
             ->first();
         return json_encode($data_administrasi);
     }
-
+    public function showByIdSiswa($id)
+    {
+        //
+        $data_administrasi = MAdministrasi::where('id_siswa', $id)
+            ->first();
+        return json_encode($data_administrasi);
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -88,7 +95,7 @@ class AdministrasiController extends Controller
         //
 
         $data_administrasi = DB::table('administrasi')
-            ->join('data_siswa', 'administrasi.no_induk_adm', '=', 'data_siswa.no_induk')
+            ->join('data_siswa', 'administrasi.id_siswa', '=', 'data_siswa.id_siswa')
             ->select('administrasi.*', 'data_siswa.nama', 'data_siswa.kelas', 'data_siswa.rombel')
             ->where('id_administrasi', $id)->first();
         // dd($data_administrasi);
@@ -104,21 +111,20 @@ class AdministrasiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $data = DB::table('administrasi')
-            ->where('id_administrasi', $id)
-            ->update([
-                'spp' => str_replace(",", "", $request->spp),
-                'psb' => str_replace(",", "", $request->psb),
-                'uts_1' => str_replace(",", "", $request->uts_1),
-                'uts_2' => str_replace(",", "", $request->uts_2),
-                'pas_1' => str_replace(",", "", $request->pas_1),
-                'pas_2' => str_replace(",", "", $request->pas_2),
-                'lks_1' => str_replace(",", "", $request->lks_1),
-                'lks_2' => str_replace(",", "", $request->lks_2),
-                'unas' => str_replace(",", "", $request->unas),
-                'daftar_ulang' => str_replace(",", "", $request->daftar_ulang),
+        $administrasi = MAdministrasi::where('id_administrasi', $id)->first();
+        //looping data administrasi
+        //[{"id_jenis_adm":3,"nama_adm":"SPP","value_adm":0}]
+        $administrasiArray = [];
+        for ($i = 0; $i < count($request->nama_adm); $i++) {
+            array_push($administrasiArray, [
+                'id_jenis_adm' => $request->id_adm[$i],
+                'nama_adm' => $request->nama_adm[$i],
+                'value_adm' => $request->value_adm[$i],
             ]);
+        }
+        $administrasi->value = json_encode($administrasiArray);
+        $administrasi->update();
+
         return json_encode(array(
             "statusCode" => 200
         ));

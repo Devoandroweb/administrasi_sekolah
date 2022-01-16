@@ -12,7 +12,7 @@ use App\Helpers\Time;
 ?>
 
 <div class="row">
-  <div class="col-md-3">
+  <div class="col-md-4">
     <div class="card">
       <div class="card-header card-header-icon card-header-rose">
         <div class="card-icon p-4">
@@ -44,7 +44,7 @@ use App\Helpers\Time;
       </div>
     </div>
   </div>
-  <div class="col-md-3">
+  {{--<div class="col-md-3">
     <div class="card">
       <div class="card-header card-header-icon card-header-info">
         <div class="card-icon p-4">
@@ -75,8 +75,8 @@ use App\Helpers\Time;
         </div>
       </div>
     </div>
-  </div>
-  <div class="col-md-3">
+  </div>--}}
+  <div class="col-md-4">
     <div class="card">
       <div class="card-header card-header-icon card-header-danger">
         <div class="card-icon p-4">
@@ -110,7 +110,7 @@ use App\Helpers\Time;
       </div>
     </div>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-4">
     <div class="card">
       <div class="card-header card-header-icon card-header-success">
         <div class="card-icon p-4">
@@ -291,7 +291,7 @@ use App\Helpers\Time;
         }
         ?>
 
-        <!--     @endif   -->
+        @endif
 
       </tbody>
     </table>

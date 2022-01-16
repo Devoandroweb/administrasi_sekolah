@@ -23,7 +23,7 @@
 
         </li>
         <li class="nav-item">
-            <a class="nav-link " href="{{url('dashboard')}}">
+            <a class="nav-link " href="{{url('user-management')}}">
                 <i class="material-icons">
                     manage_accounts
                 </i>

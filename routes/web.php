@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CAdministrator;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Administrasi\Controller;
 
@@ -16,7 +17,8 @@ use App\Http\Controllers\Administrasi\PasswordController;
 use App\Http\Controllers\Administrasi\ClientController;
 use App\Http\Controllers\Administrasi\RekapitulasiController;
 use App\Http\Controllers\Administrasi\TahunAjaranController;
-use App\Http\Controllers\CJenisAdministrasi;
+use App\Http\Controllers\Administrasi\CJenisAdministrasi;
+use App\Http\Controllers\Administrasi\CPembayaran;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +39,14 @@ Route::post('/error', [LoginController::class, 'error_connection']);
 
 Route::middleware(['auth'])->group(function () {
 
+	//admin-user-management
+	Route::get('/user-management', [CAdministrator::class, 'index']);
+	Route::post('/user-management-add', [CAdministrator::class, 'saveCreate']);
+	Route::get('/user-management-show/{id}', [CAdministrator::class, 'show']);
+	Route::post('/user-management-save-update/{id}', [CAdministrator::class, 'saveUpdate']);
+	Route::get('/user-management-delete/{id}', [CAdministrator::class, 'destroy']);
+	Route::get('/user-management-datatable', [CAdministrator::class, 'datatable']);
+
 
 	//jenis tanggungan
 	Route::get('/jenis-administrasi', [CJenisAdministrasi::class, 'index']);
@@ -48,6 +58,7 @@ Route::middleware(['auth'])->group(function () {
 	//administrasi
 	// Route::get('/administrasi', [AdministrasiController::class, 'index']);
 	Route::post('/read_adm_by/{id}', [AdministrasiController::class, 'edit']);
+	Route::post('/read_adm_by_siswa/{id}', [AdministrasiController::class, 'showByIdSiswa']);
 	Route::post('/simpan_edit_adm/{id}', [AdministrasiController::class, 'update']);
 	Route::post('/tgg_prev_by/{id}', [AdministrasiController::class, 'get_tgg_prev']);
 	Route::get('/isi_administrasi_all', [AdministrasiController::class, 'refillable']);
@@ -156,4 +167,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('/read_tanggungan_lalu_by/{id}', [TanggunganlaluController::class, 'get_tanggungan_lalu_by']);
 	Route::post('/simpan_edit_tanggungan_lalu/{id}', [TanggunganlaluController::class, 'update']);
 	Route::post('/hapus_tgg_prev/{id}', [TanggunganlaluController::class, 'destroy']);
+
+	//pemabayaran
+	Route::get('/pembayaran', [CPembayaran::class, 'index']);
 });

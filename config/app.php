@@ -54,7 +54,7 @@ return [
 
     'url' => env('APP_URL', ''),
 
-    'asset_url' => env('ASSET_URL',''),
+    'asset_url' => env('ASSET_URL', ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -166,7 +166,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        
+
         /*
          * Package Service Providers...
          */
@@ -186,7 +186,7 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
 
         Barryvdh\DomPDF\ServiceProvider::class,
-      
+
 
 
 
@@ -252,10 +252,11 @@ return [
 
         //helper
         'TimeHelp' => App\Helpers\Time::class,
+        'GF' => App\Helpers\GF::class,
         'TerbilangHelp' => App\Helpers\Terbilang::class,
         'DomPDF' => Barryvdh\DomPDF\Facade::class,
-   
-   
+
+
     ],
 
 ];

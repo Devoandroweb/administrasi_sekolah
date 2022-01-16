@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Support\ServiceProvider;
 use PDOException;
 use Carbon\Carbon;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -18,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         require_once app_path() . '/Helpers/Time.php';
+        require_once app_path() . '/Helpers/GF.php';
     }
 
     /**
@@ -27,8 +29,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        
-        
-        
     }
 }
