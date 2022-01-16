@@ -39,7 +39,7 @@ class CAdministrator extends Controller
     public function destroy($id)
     {
         User::where('id', $id)->delete();
-        return redirect(url('user-management'))->with('msg', 'Sukses menghapus pengguna');
+        return redirect(url('admin/user-management'))->with('msg', 'Sukses menghapus pengguna');
     }
     public function credential($user, $request)
     {
@@ -57,7 +57,7 @@ class CAdministrator extends Controller
             ->addColumn('action', function ($row) {
                 $btn = '';
                 $btn .= '<a id="' . $row->id . '" data-type="edit" href="#" class="btn btn-primary btn-edit btn-sm b-modal"> <i class="material-icons">edit</i></a>';
-                $btn .= '<a href="' . url("user-management-delete") . "/" . $row->id . '" class="btn btn-warning btn-delete btn-sm"> <i class="material-icons">delete_outline</i></a>';
+                $btn .= '<a href="' . url("admin/user-management-delete") . "/" . $row->id . '" class="btn btn-warning btn-delete btn-sm"> <i class="material-icons">delete_outline</i></a>';
                 return $btn;
             })
             ->addColumn('role_convert', function ($row) {

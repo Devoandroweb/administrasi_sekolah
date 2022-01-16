@@ -7,16 +7,32 @@
             </a>
         </li>
         <li class="nav-item" style="margin: 10px 15px 0; ">
-            <div id="dropdownMenu" class="nav-link  @if ($active == 5) active-purple @endif " style="border-radius: 3px;">
+            <div id="dropdownMenu" class="nav-link  @if ($active == 5) active-purple @endif dropdownMenu" style="border-radius: 3px;">
                 <span class="link-menu pb-2">
                     <i class="material-icons">face</i>
-                    <p id="arrow">Data Siswa <i class="material-icons float-right mr-0 @if ($active == 5) arrow-hidden @endif">keyboard_arrow_right</i></p>
+                    <p id="arrow">Data Master <i class="material-icons float-right mr-0 @if ($active == 5) arrow-hidden @endif">keyboard_arrow_right</i></p>
                 </span>
 
                 <div class="card menu-dropdown @if ($active == 5) show-menu-dropdown @endif ">
                     <div class="card-body p-2" style="line-height: 3rem;">
-                        <a class="link-menu-dropdown" href="siswa">Siswa Aktif</a>
-                        <a class="link-menu-dropdown" href="alumni">Siswa Alumni</a>
+                        <a class="link-menu-dropdown" href="{{url('siswa')}}">Siswa Aktif</a>
+                        <a class="link-menu-dropdown" href="{{url('admin/kelas')}}">Data Kelas</a>
+                    </div>
+                </div>
+            </div>
+
+        </li>
+        <li class="nav-item" style="margin: 10px 15px 0; ">
+            <div id="dropdownMenu" class="nav-link  @if ($active == 5) active-purple @endif dropdownMenu" style="border-radius: 3px;">
+                <span class="link-menu pb-2">
+                    <i class="material-icons">face</i>
+                    <p id="arrow">Data Master <i class="material-icons float-right mr-0 @if ($active == 5) arrow-hidden @endif">keyboard_arrow_right</i></p>
+                </span>
+
+                <div class="card menu-dropdown @if ($active == 5) show-menu-dropdown @endif ">
+                    <div class="card-body p-2" style="line-height: 3rem;">
+                        <a class="link-menu-dropdown" href="siswa">Data Guru</a>
+                        <a class="link-menu-dropdown" href="{{url('admin/kelas')}}">Data Kelas</a>
                     </div>
                 </div>
             </div>
@@ -30,6 +46,8 @@
                 <p>User Management</p>
             </a>
         </li>
+
+
 
         <!-- your sidebar here -->
     </ul>

@@ -560,14 +560,15 @@ $tahun_ajaran = DB::table('tahun_ajaran')->select("*")->first();
         }
       });
 
-      $('.link-menu').click(function(event) {
-        $('.menu-dropdown').toggleClass('show-menu-dropdown');
-        $('#dropdownMenu').toggleClass(' active-purple');
-        $('#arrow > i').toggleClass('arrow-hidden');
+      $('.dropdownMenu').click(function(event) {
+        $(this).find('.menu-dropdown').toggleClass('show-menu-dropdown');
+        $(this).toggleClass('active-purple');
+        $(this).find('#arrow > i').toggleClass('arrow-hidden');
       });
+
       $('.link-menu-administrasi').click(function(event) {
         $('.menu-dropdownAdministrasi').toggleClass('show-menu-dropdown');
-        $('#dropdownMenuAdministrasi').toggleClass(' active-purple');
+        $('#dropdownMenuAdministrasi').toggleClass('active-purple');
         $('#arrowAdministrasi > i').toggleClass('arrow-hidden');
       });
 

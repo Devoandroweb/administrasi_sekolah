@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CAdministrator;
+use App\Http\Controllers\Admin\CKelas;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Administrasi\Controller;
 
@@ -39,13 +40,7 @@ Route::post('/error', [LoginController::class, 'error_connection']);
 
 Route::middleware(['auth'])->group(function () {
 
-	//admin-user-management
-	Route::get('/user-management', [CAdministrator::class, 'index']);
-	Route::post('/user-management-add', [CAdministrator::class, 'saveCreate']);
-	Route::get('/user-management-show/{id}', [CAdministrator::class, 'show']);
-	Route::post('/user-management-save-update/{id}', [CAdministrator::class, 'saveUpdate']);
-	Route::get('/user-management-delete/{id}', [CAdministrator::class, 'destroy']);
-	Route::get('/user-management-datatable', [CAdministrator::class, 'datatable']);
+
 
 
 	//jenis tanggungan
@@ -170,4 +165,21 @@ Route::middleware(['auth'])->group(function () {
 
 	//pemabayaran
 	Route::get('/pembayaran', [CPembayaran::class, 'index']);
+
+	//admin
+	Route::prefix('admin')->group(function () {
+		Route::get('/kelas', [CKelas::class, 'index']);
+		Route::post('/kelas-add', [CKelas::class, 'saveCreate']);
+		Route::get('/kelas-show/{id}', [CKelas::class, 'show']);
+		Route::post('/kelas-save-update/{id}', [CKelas::class, 'saveUpdate']);
+		Route::get('/kelas-delete/{id}', [CKelas::class, 'destroy']);
+		Route::get('/kelas-datatable', [CKelas::class, 'datatable']);
+		//admin-user-management
+		Route::get('/user-management', [CAdministrator::class, 'index']);
+		Route::post('/user-management-add', [CAdministrator::class, 'saveCreate']);
+		Route::get('/user-management-show/{id}', [CAdministrator::class, 'show']);
+		Route::post('/user-management-save-update/{id}', [CAdministrator::class, 'saveUpdate']);
+		Route::get('/user-management-delete/{id}', [CAdministrator::class, 'destroy']);
+		Route::get('/user-management-datatable', [CAdministrator::class, 'datatable']);
+	});
 });

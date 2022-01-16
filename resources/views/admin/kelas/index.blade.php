@@ -20,9 +20,9 @@
             <thead>
                 <tr>
                     <th class="font-weight-bold" width="5%">#</th>
-                    <th class="font-weight-bold">Nama</th>
-                    <th class="font-weight-bold">Email</th>
-                    <th class="font-weight-bold">Role</th>
+                    <th class="font-weight-bold">Nama Kelas</th>
+                    <th class="font-weight-bold">Jurusan</th>
+                    <th class="font-weight-bold">Wali Kelas</th>
                     <th class="text-center font-weight-bold" width="20%">Action</th>
                 </tr>
             </thead>
@@ -107,7 +107,7 @@
             serverSide: true,
 
             ajax: {
-                url: '{{ url("admin/user-management-datatable") }}',
+                url: '{{ url("admin/kelas-datatable") }}',
             },
             rowReorder: {
                 selector: 'td:nth-child(2)'
@@ -120,16 +120,16 @@
                     searchable: false
                 },
                 {
-                    data: 'name',
-                    name: 'name'
+                    data: 'nama_kelas',
+                    name: 'nama_kelas'
                 },
                 {
-                    data: 'email',
-                    name: 'email'
+                    data: 'nama_guru',
+                    name: 'nama_guru'
                 },
                 {
-                    data: 'role_convert',
-                    name: 'role_convert'
+                    data: 'nama_jurusan',
+                    name: 'nama_jurusan'
                 },
                 {
                     data: 'action',
@@ -139,12 +139,6 @@
                 },
 
             ],
-            "drawCallback": function(settings) {
-                $('.dataTables_scrollBody').addClass('overflow-inherit');
-                $('.numeric').attr('data-a-dec', ',');
-                $('.numeric').attr('data-a-sep', '.');
-                $('.numeric').autoNumeric('init');
-            }
 
         });
     }
@@ -164,7 +158,7 @@
             var id = $(this).attr('id');
             $.ajax({
                 type: "get",
-                url: "{{url('admin/user-management-show')}}/" + id,
+                url: "{{url('user-management-show')}}/" + id,
                 dataType: "json",
                 success: function(response) {
                     if (response.status) {
@@ -195,7 +189,7 @@
                 //ajax add
                 $.ajax({
                     type: "post",
-                    url: "{{url('admin/user-management-add')}}",
+                    url: "{{url('user-management-add')}}",
                     data: data,
                     dataType: "json",
                     success: function(response) {
@@ -216,7 +210,7 @@
             } else if (type == 'edit') {
                 $.ajax({
                     type: "post",
-                    url: "{{url('admin/user-management-save-update')}}/" + id,
+                    url: "{{url('user-management-save-update')}}/" + id,
                     data: data,
                     dataType: "json",
                     success: function(response) {
