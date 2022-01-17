@@ -19,7 +19,7 @@ class CKelas extends Controller
         $kelas = new MKelas;
         $this->credential($kelas, $request);
         $kelas->save();
-        return response()->json(['status' => true, 'msg' => 'Sukses menambahkan data pengguna']);
+        return response()->json(['status' => true, 'msg' => 'Sukses menambahkan data kelas']);
     }
     public function show($id)
     {
@@ -31,12 +31,12 @@ class CKelas extends Controller
         $kelas = MKelas::where('id_kelas', $id)->first();
         $this->credential($kelas, $request);
         $kelas->update();
-        return response()->json(['status' => true, 'msg' => 'Sukses mengubah data pengguna']);
+        return response()->json(['status' => true, 'msg' => 'Sukses mengubah data kelas']);
     }
     public function destroy($id)
     {
-        MKelas::where('id', $id)->delete();
-        return redirect(url('user-management'))->with('msg', 'Sukses menghapus pengguna');
+        MKelas::where('id_kelas', $id)->delete();
+        return redirect(url('admin/kelas'))->with('msg', 'Sukses menghapus kelas');
     }
     public function credential($kelas, $request)
     {

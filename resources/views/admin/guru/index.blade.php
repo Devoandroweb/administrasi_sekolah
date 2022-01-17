@@ -20,9 +20,8 @@
             <thead>
                 <tr>
                     <th class="font-weight-bold" width="5%">#</th>
-                    <th class="font-weight-bold">Nama Kelas</th>
-                    <th class="font-weight-bold">Jurusan</th>
-                    <th class="font-weight-bold">Wali Kelas</th>
+                    <th class="font-weight-bold">Nama</th>
+                    <th class="font-weight-bold">No Handphone (WA)</th>
                     <th class="text-center font-weight-bold" width="20%">Action</th>
                 </tr>
             </thead>
@@ -46,7 +45,7 @@
                             <i class="material-icons">clear</i>
                         </button>
 
-                        <h4 class="card-title">User Management</h4>
+                        <h4 class="card-title">Guru</h4>
 
                     </div>
                 </div>
@@ -60,25 +59,9 @@
                                     <input type="text" value="" name="nama" class="form-control" />
                                 </div>
                                 <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="email" value="" name="email" class="form-control" />
+                                    <label>No. Telp (WhatsApp)</label>
+                                    <input type="text" value="" name="no_telp" class="form-control" />
                                 </div>
-                                <div class="form-group">
-                                    <label>Password</label>
-                                    <input type="password" value="" name="password" class="form-control" />
-                                </div>
-                                <div class="form-group">
-                                    <label>Jenis Pengguna</label>
-                                    <select name="role" class="form-control">
-                                        <option disabled selected value="default">Pilih Jenis Pengguna</option>
-                                        <option value="1">Administrator</option>
-                                        <option value="2">Administrasi</option>
-                                        <option value="3">Siswa</option>
-                                        <option value="4">Guru</option>
-                                    </select>
-                                </div>
-
-
                             </form>
                         </div>
                     </form>
@@ -107,7 +90,7 @@
             serverSide: true,
 
             ajax: {
-                url: '{{ url("admin/kelas-datatable") }}',
+                url: '{{ url("admin/guru-datatable") }}',
             },
             rowReorder: {
                 selector: 'td:nth-child(2)'
@@ -120,16 +103,12 @@
                     searchable: false
                 },
                 {
-                    data: 'nama_kelas',
-                    name: 'nama_kelas'
+                    data: 'nama',
+                    name: 'nama'
                 },
                 {
-                    data: 'nama_guru',
-                    name: 'nama_guru'
-                },
-                {
-                    data: 'nama_jurusan',
-                    name: 'nama_jurusan'
+                    data: 'no_telp',
+                    name: 'no_telp'
                 },
                 {
                     data: 'action',
@@ -149,8 +128,7 @@
 
         if (jmodal == "tambah") {
             modal.find('input[name=nama]').val("");
-            modal.find('input[name=email]').val("");
-            modal.find('input[name=password]').val("");
+            modal.find('input[name=no_telp]').val("");
             modal.find('button').attr('data-type', 'tambah');
             modal.modal("show");
         } else if (jmodal == "edit") {
@@ -158,13 +136,12 @@
             var id = $(this).attr('id');
             $.ajax({
                 type: "get",
-                url: "{{url('admin/kelas-show')}}/" + id,
+                url: "{{url('admin/guru-show')}}/" + id,
                 dataType: "json",
                 success: function(response) {
                     if (response.status) {
-                        modal.find('input[name=nama]').val(response.data.name);
-                        modal.find('input[name=email]').val(response.data.email);
-                        modal.find('input[name=password]').val(response.data.password);
+                        modal.find('input[name=nama]').val(response.data.nama);
+                        modal.find('input[name=no_telp]').val(response.data.no_telp);
                         modal.find('button').attr('data-type', 'edit');
                         modal.find('button').attr('id', id);
                         var data = $(modal).find("form").serializeArray();
@@ -189,7 +166,7 @@
                 //ajax add
                 $.ajax({
                     type: "post",
-                    url: "{{url('admin/kelas-add')}}",
+                    url: "{{url('admin/guru-add')}}",
                     data: data,
                     dataType: "json",
                     success: function(response) {
@@ -210,7 +187,7 @@
             } else if (type == 'edit') {
                 $.ajax({
                     type: "post",
-                    url: "{{url('admin/kelas-save-update')}}/" + id,
+                    url: "{{url('admin/guru-save-update')}}/" + id,
                     data: data,
                     dataType: "json",
                     success: function(response) {

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\CAdministrator;
+use App\Http\Controllers\Admin\CGuru;
+use App\Http\Controllers\Admin\CJurusan;
 use App\Http\Controllers\Admin\CKelas;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Administrasi\Controller;
@@ -168,13 +170,28 @@ Route::middleware(['auth'])->group(function () {
 
 	//admin
 	Route::prefix('admin')->group(function () {
+		### KELAS ###
 		Route::get('/kelas', [CKelas::class, 'index']);
 		Route::post('/kelas-add', [CKelas::class, 'saveCreate']);
 		Route::get('/kelas-show/{id}', [CKelas::class, 'show']);
 		Route::post('/kelas-save-update/{id}', [CKelas::class, 'saveUpdate']);
 		Route::get('/kelas-delete/{id}', [CKelas::class, 'destroy']);
 		Route::get('/kelas-datatable', [CKelas::class, 'datatable']);
-		//admin-user-management
+		### GURU ###
+		Route::get('/guru', [CGuru::class, 'index']);
+		Route::post('/guru-add', [CGuru::class, 'saveCreate']);
+		Route::get('/guru-show/{id}', [CGuru::class, 'show']);
+		Route::post('/guru-save-update/{id}', [CGuru::class, 'saveUpdate']);
+		Route::get('/guru-delete/{id}', [CGuru::class, 'destroy']);
+		Route::get('/guru-datatable', [CGuru::class, 'datatable']);
+		### JURUSAN ###
+		Route::get('/jurusan', [CJurusan::class, 'index']);
+		Route::post('/jurusan-add', [CJurusan::class, 'saveCreate']);
+		Route::get('/jurusan-show/{id}', [CJurusan::class, 'show']);
+		Route::post('/jurusan-save-update/{id}', [CJurusan::class, 'saveUpdate']);
+		Route::get('/jurusan-delete/{id}', [CJurusan::class, 'destroy']);
+		Route::get('/jurusan-datatable', [CJurusan::class, 'datatable']);
+		### USER MANAGEMENT ###
 		Route::get('/user-management', [CAdministrator::class, 'index']);
 		Route::post('/user-management-add', [CAdministrator::class, 'saveCreate']);
 		Route::get('/user-management-show/{id}', [CAdministrator::class, 'show']);

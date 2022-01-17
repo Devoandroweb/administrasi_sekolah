@@ -171,6 +171,7 @@
                         modal.find('input[name=nama]').val(response.data.name);
                         modal.find('input[name=email]').val(response.data.email);
                         modal.find('input[name=password]').val(response.data.password);
+                        modal.find('select[name=role]').val(response.data.role);
                         modal.find('button').attr('data-type', 'edit');
                         modal.find('button').attr('id', id);
                         var data = $(modal).find("form").serializeArray();

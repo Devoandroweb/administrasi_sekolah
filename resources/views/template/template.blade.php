@@ -18,7 +18,7 @@ $tahun_ajaran = DB::table('tahun_ajaran')->select("*")->first();
   .active-purple {
     background-color: #9c27b0;
     color: white;
-    transition: background-color 1s;
+    transition: background-color 0.5s;
   }
 
   .active-purple>span i {
@@ -34,14 +34,15 @@ $tahun_ajaran = DB::table('tahun_ajaran')->select("*")->first();
 
   .menu-dropdown {
     overflow: hidden;
-    height: 0;
-    transition: height 0.5s;
+
+    max-height: 0vh;
+    transition: all 0.1s;
   }
 
   .menu-dropdownAdministrasi {
     overflow: hidden;
-    height: 0;
-    transition: height 0.5s;
+    height: 0vh;
+    transition: height 0.1s;
   }
 
   .link-menu-dropdown {
@@ -52,10 +53,12 @@ $tahun_ajaran = DB::table('tahun_ajaran')->select("*")->first();
   }
 
   #dropdownMenu .show-menu-dropdown {
-    height: 110px !important;
-    transition: height 0.5s;
+    max-height: 100vh !important;
     margin-top: 20px !important;
     margin-bottom: 20px !important;
+    display: inline-table;
+    background-color: #fff;
+    transition: all 1s;
 
   }
 
