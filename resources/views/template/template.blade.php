@@ -165,10 +165,10 @@ $tahun_ajaran = DB::table('tahun_ajaran')->select("*")->first();
                   </div>
                 </div>
               </li>
-
+              @if(Auth::user()->role == 2)
               <!-- <li id="addpemasukan" class="nav-item" data-toggle="modal" data-target="#modalPemasukan"> -->
               <li id="addpemasukan" class="nav-item">
-                <a class="nav-link text-white btn-success" href="{{url('pembayaran')}}">
+                <a class="nav-link text-white btn-success" href="{{url('pembayaran')}}" target="_blank">
                   <i class="fas fa-plus-circle fa-lg"></i> <span class="ml-1">Pembayaran Siswa</span>
                 </a>
               </li>
@@ -177,7 +177,7 @@ $tahun_ajaran = DB::table('tahun_ajaran')->select("*")->first();
                   <i class="fas fa-plus-circle fa-lg"></i> <span class="ml-1">Pengeluaran</span>
                 </a>
               </li>
-
+              @endif
               <!-- your navbar here -->
             </ul>
           </div>

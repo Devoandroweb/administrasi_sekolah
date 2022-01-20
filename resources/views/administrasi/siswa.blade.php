@@ -12,7 +12,7 @@
     <div class="card-text">
       <h4 class="card-title">Data Siswa</h4>
     </div>
-    <button class="btn btn-warning float-right pl-2" data-target="#modaladdSiswa" data-toggle="modal"><i class="material-icons">add_circle</i>Tambah</button>
+    <button class="btn btn-warning float-right btn-tambah pl-2"><i class="material-icons">add_circle</i>Tambah</button>
     <a href="export_excel" class="btn btn-success float-right pl-2 mr-1 print_excel"><i class="material-icons">download</i> Save Excel</a>
     <a href="cetak_data_siswa" target="_blank" class="btn btn-info float-right pl-2 mr-1 print_biasa"><i class="material-icons">print</i> Print</a>
     <a href="import_siswa" class="btn btn-primary float-right pl-2 mr-1 print_excel " data-target="#modalImport" data-toggle="modal"><i class="material-icons">cloud_download</i>Import</a>
@@ -34,7 +34,6 @@
           <th class="font-weight-bold">NISN</th>
           <th class="font-weight-bold">Nama</th>
           <th class="font-weight-bold">Kelas</th>
-          <th class="font-weight-bold">Jurusan</th>
           <th class="font-weight-bold">Actions</th>
         </tr>
       </thead>
@@ -91,12 +90,8 @@
           },
 
           {
-            data: 'kelas',
-            name: 'kelas'
-          },
-          {
-            data: 'rombel',
-            name: 'rombel'
+            data: 'nama_kelas',
+            name: 'nama_kelas'
           },
           {
             data: 'action',
@@ -113,38 +108,26 @@
         }, ],
       });
     }
+    $(".btn-tambah").click(function(e) {
+      e.preventDefault();
+      resetForm();
+      $("#modaladdSiswa").modal("show");
+
+    });
+
+    function resetForm() {
+      $("#form_data_siswa").find("input[type=text],input[type=password],input[type=date],input[type=number],textarea").val("");
+      $("#form_data_siswa").find("select").prop("selectedIndex", 0);
+    }
     //simpan data
     $('#simpan-siswa').click(function(event) {
       event.preventDefault();
-      var token = $('input[name=_token]').val();
-      var nama = $('input[name=nama]').val();
-      var tmp_lahir = $('input[name=tmp_lahir]').val();
-      var tgl_lahir = $('input[name=tgl_lahir]').val();
-      var nisn = $('input[name=nisn]').val();
-      var no_induk = $('input[name=no_induk]').val();
-      var kelas = $('input[name=kelas]').val();
-      var rombel = $('input[name=rombel]').val();
-      var no_tlp = $('input[name=no_tlp]').val();
-      var alamat = $('textarea[name=alamat]').val();
-      var password = nama;
-
+      var data = $("#form_data_siswa").serializeArray();
       $.ajax({
-          url: '{{url("addsiswa")}}',
+          url: '{{url("admin/addsiswa")}}',
           type: 'POST',
           dataType: 'json',
-          data: {
-            _token: token,
-            nama: nama,
-            tmp_lahir: tmp_lahir,
-            tgl_lahir: tgl_lahir,
-            nisn: nisn,
-            no_induk: no_induk,
-            kelas: kelas,
-            rombel: rombel,
-            no_tlp: no_tlp,
-            alamat: alamat,
-            password: password
-          },
+          data: data,
         })
         .done(function() {
           $('#datatable_siswa').DataTable().destroy();
@@ -154,13 +137,7 @@
             'Data Siswa Tersimpan',
             'success'
           );
-          $('input[name=nama]').val('');
-          $('input[name=tmp_lahir]').val('');
-          $('input[name=tgl_lahir]').val('');
-          $('input[name=nisn]').val('');
-          $('input[name=no_induk]').val('');
-          $('input[name=no_tlp]').val('');
-          $('textarea[name=alamat]').val('');
+          resetForm();
           $('#modaladdSiswa').modal('hide');
         })
         .fail(function() {
@@ -180,7 +157,7 @@
       event.preventDefault();
       var id = $(this).attr('id');
       $.ajax({
-          url: '{{url("read_siswa_by")}}/' + id,
+          url: '{{url("admin/read_siswa_by")}}/' + id,
           type: 'GET',
           dataType: 'json',
           async: false
@@ -193,6 +170,7 @@
           $('input[name=up_tgl_lahir]').val(data['tanggal_lahir']);
           $('input[name=up_nisn]').val(data['data_siswa'].nisn);
           $('input[name=up_no_induk]').val(data['data_siswa'].no_induk);
+          $('select[name=up_kelas]').val(data['data_siswa'].kelas);
           $('input[name=up_no_tlp]').val(data['data_siswa'].no_tlp);
           $('textarea[name=up_alamat]').val(data['data_siswa'].alamat);
           $('.simpan-edit').attr('id', data['data_siswa'].id_siswa);
@@ -211,28 +189,12 @@
     $('.simpan-edit').click(function(event) {
       event.preventDefault();
       var id = $(this).attr('id');
-      var token = $('#form_edit_siswa input[name=_token]').val();
-      var nama = $('input[name=up_nama]').val();
-      var tmp_lahir = $('input[name=up_tmp_lahir]').val();
-      var tgl_lahir = $('input[name=up_tgl_lahir]').val();
-      var nisn = $('input[name=up_nisn]').val();
-      var no_induk = $('input[name=up_no_induk]').val();
-      var no_tlp = $('input[name=up_no_tlp]').val();
-      var alamat = $('textarea[name=up_alamat]').val();
+      var data = $("#form_edit_siswa").serializeArray();
       $.ajax({
-          url: '{{url("update_siswa")}}/' + id,
+          url: '{{url("admin/update_siswa")}}/' + id,
           type: 'POST',
           dataType: 'JSON',
-          data: {
-            _token: token,
-            up_nama: nama,
-            up_tmp_lahir: tmp_lahir,
-            up_tgl_lahir: tgl_lahir,
-            up_nisn: nisn,
-            up_no_induk: no_induk,
-            up_no_tlp: no_tlp,
-            up_alamat: alamat
-          },
+          data: data,
         })
         .done(function() {
           $('#datatable_siswa').DataTable().destroy();
@@ -267,7 +229,7 @@
           var id = $(this).attr('id');
           var token = '{{ csrf_token() }}';
           $.ajax({
-              url: '{{url("delete_siswa")}}/' + id,
+              url: '{{url("admin/delete_siswa")}}/' + id,
               type: 'POST',
               dataType: 'JSON',
               data: {

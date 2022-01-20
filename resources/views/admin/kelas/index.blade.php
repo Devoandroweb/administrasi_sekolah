@@ -23,6 +23,7 @@
                     <th class="font-weight-bold">Nama Kelas</th>
                     <th class="font-weight-bold">Jurusan</th>
                     <th class="font-weight-bold">Wali Kelas</th>
+                    <th class="font-weight-bold">Total Siswa</th>
                     <th class="text-center font-weight-bold" width="20%">Action</th>
                 </tr>
             </thead>
@@ -46,39 +47,40 @@
                             <i class="material-icons">clear</i>
                         </button>
 
-                        <h4 class="card-title">User Management</h4>
+                        <h4 class="card-title">Kelas</h4>
 
                     </div>
                 </div>
                 <div class="modal-body">
+                    <div class="alert-add-kelas"></div>
                     <form id="form_update" class="form">
                         @csrf
                         <div class="card-body">
                             <form action="">
                                 <div class="form-group">
-                                    <label>Nama</label>
-                                    <input type="text" value="" name="nama" class="form-control" />
+                                    <label>Nama Kelas</label>
+                                    <input type="text" value="" name="nama_kelas" class="form-control" />
                                 </div>
                                 <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="email" value="" name="email" class="form-control" />
+                                    <label>Jurusan</label>
+                                    <select name="jurusan" class="form-control">
+                                        <option disabled selected value="default">Pilih Jurusan</option>
+                                        @foreach($jurusan as $key)
+                                        <option value="{{$key->id_jurusan}}">{{$key->nama}}</option>
+                                        @endforeach
+                                    </select>
+
                                 </div>
                                 <div class="form-group">
-                                    <label>Password</label>
-                                    <input type="password" value="" name="password" class="form-control" />
-                                </div>
-                                <div class="form-group">
-                                    <label>Jenis Pengguna</label>
-                                    <select name="role" class="form-control">
-                                        <option disabled selected value="default">Pilih Jenis Pengguna</option>
-                                        <option value="1">Administrator</option>
-                                        <option value="2">Administrasi</option>
-                                        <option value="3">Siswa</option>
-                                        <option value="4">Guru</option>
+                                    <label>Wali Kelas</label>
+                                    <select name="wali_kelas" class="form-control">
+                                        <option disabled selected value="default">Pilih Wali Kelas</option>
+                                        @foreach($guru as $key)
+                                        <option value="{{$key->id_guru}}">{{$key->nama}}</option>
+
+                                        @endforeach
                                     </select>
                                 </div>
-
-
                             </form>
                         </div>
                     </form>
@@ -124,12 +126,16 @@
                     name: 'nama_kelas'
                 },
                 {
+                    data: 'nama_jurusan',
+                    name: 'nama_jurusan'
+                },
+                {
                     data: 'nama_guru',
                     name: 'nama_guru'
                 },
                 {
-                    data: 'nama_jurusan',
-                    name: 'nama_jurusan'
+                    data: 'total_siswa',
+                    name: 'total_siswa'
                 },
                 {
                     data: 'action',
@@ -148,9 +154,9 @@
         var id = $(this).attr("id");
 
         if (jmodal == "tambah") {
-            modal.find('input[name=nama]').val("");
-            modal.find('input[name=email]').val("");
-            modal.find('input[name=password]').val("");
+            modal.find('input[name=nama_kelas]').val("");
+            modal.find('select[name=jurusan]').prop('selectedIndex', 0);
+            modal.find('select[name=wali_kelas]').prop('selectedIndex', 0);
             modal.find('button').attr('data-type', 'tambah');
             modal.modal("show");
         } else if (jmodal == "edit") {
@@ -162,9 +168,9 @@
                 dataType: "json",
                 success: function(response) {
                     if (response.status) {
-                        modal.find('input[name=nama]').val(response.data.name);
-                        modal.find('input[name=email]').val(response.data.email);
-                        modal.find('input[name=password]').val(response.data.password);
+                        modal.find('input[name=nama_kelas]').val(response.data.nama);
+                        modal.find('select[name=jurusan]').val(response.data.id_jurusan);
+                        modal.find('select[name=wali_kelas]').val(response.data.id_wali_kelas);
                         modal.find('button').attr('data-type', 'edit');
                         modal.find('button').attr('id', id);
                         var data = $(modal).find("form").serializeArray();
@@ -186,23 +192,38 @@
         console.log(type);
         if (checkForm) {
             if (type == 'tambah') {
-                //ajax add
+                //ajax check data
                 $.ajax({
                     type: "post",
-                    url: "{{url('admin/kelas-add')}}",
+                    url: "{{url('admin/kelas-check')}}",
                     data: data,
                     dataType: "json",
                     success: function(response) {
-                        if (response.status) {
-                            modal.modal("hide");
-                            $('#datatable').DataTable().destroy();
-                            readData();
-                            var html = '<div class="alert alert-success" role="alert">' + response.msg + '</div>';
-                            $(".msg").html(html);
-                            modal.modal('hide');
+                        console.log(response.data);
+                        if (response.data > 0) {
+                            $(".alert-add-kelas").html('<div class="alert alert-danger" role="alert"> Kelas Sudah ada !!!</div>');
                         } else {
-                            var html = '<div class="alert alert-danger" role="alert">' + response.msg + '</div>';
-                            $(".msg").html(html);
+                            //ajax add
+                            $.ajax({
+                                type: "post",
+                                url: "{{url('admin/kelas-add')}}",
+                                data: data,
+                                dataType: "json",
+                                success: function(response) {
+                                    if (response.status) {
+                                        modal.modal("hide");
+                                        $('#datatable').DataTable().destroy();
+                                        readData();
+                                        var html = '<div class="alert alert-success" role="alert">' + response.msg + '</div>';
+                                        $(".msg").html(html);
+                                        modal.modal('hide');
+                                    } else {
+                                        var html = '<div class="alert alert-danger" role="alert">' + response.msg + '</div>';
+                                        $(".msg").html(html);
+                                    }
+
+                                }
+                            });
                         }
 
                     }
@@ -210,24 +231,40 @@
             } else if (type == 'edit') {
                 $.ajax({
                     type: "post",
-                    url: "{{url('admin/kelas-save-update')}}/" + id,
+                    url: "{{url('admin/kelas-check')}}",
                     data: data,
                     dataType: "json",
                     success: function(response) {
-                        if (response.status) {
-                            modal.modal("hide");
-                            $('#datatable').DataTable().destroy();
-                            readData();
-                            var html = '<div class="alert alert-success" role="alert">' + response.msg + '</div>';
-                            $(".msg").html(html);
-                            modal.modal('hide');
+                        console.log(response.data);
+                        if (response.data > 0) {
+                            $(".alert-add-kelas").html('<div class="alert alert-danger" role="alert"> Kelas Sudah ada !!!</div>');
                         } else {
-                            var html = '<div class="alert alert-danger" role="alert">' + response.msg + '</div>';
-                            $(".msg").html(html);
+                            //ajax update
+                            $.ajax({
+                                type: "post",
+                                url: "{{url('admin/kelas-save-update')}}/" + id,
+                                data: data,
+                                dataType: "json",
+                                success: function(response) {
+                                    if (response.status) {
+                                        modal.modal("hide");
+                                        $('#datatable').DataTable().destroy();
+                                        readData();
+                                        var html = '<div class="alert alert-success" role="alert">' + response.msg + '</div>';
+                                        $(".msg").html(html);
+                                        modal.modal('hide');
+                                    } else {
+                                        var html = '<div class="alert alert-danger" role="alert">' + response.msg + '</div>';
+                                        $(".msg").html(html);
+                                    }
+
+                                }
+                            });
                         }
 
                     }
                 });
+
             }
 
         }
@@ -254,6 +291,11 @@
 
 
     });
+
+    function checkKelas(data) {
+        var gret = false;
+
+    }
 </script>
 
 @endpush

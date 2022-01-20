@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\DataSiswa;
 use App\Models\MAdministrasi;
 use App\Models\MJenisAdministrasi;
+use App\Models\MKelas;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -114,7 +115,13 @@ class HomeController extends Controller
     }
     public function siswa()
     {
-        return view('administrasi.siswa', ['active' => '5', 'title' => 'Siswa']);
+        $kelas = MKelas::select("m_kelas.*", "m_jurusan.id_jurusan", "m_jurusan.nama as nama_jurusan")
+            ->join("m_jurusan", "m_jurusan.id_jurusan", "=", "m_kelas.id_jurusan", "left")
+            ->get();
+        return view('administrasi.siswa')
+            ->with("title", "Siswa")
+            ->with("active", "5")
+            ->with("kelas", $kelas);
     }
     public function alumni()
     {

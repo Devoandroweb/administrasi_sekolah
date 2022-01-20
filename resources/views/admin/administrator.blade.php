@@ -139,6 +139,7 @@
                 },
 
             ],
+
             "drawCallback": function(settings) {
                 $('.dataTables_scrollBody').addClass('overflow-inherit');
                 $('.numeric').attr('data-a-dec', ',');

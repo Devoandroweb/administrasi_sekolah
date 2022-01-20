@@ -46,14 +46,7 @@
                                             <input type="date" class="form-control" name="tgl_lahir" required="">
                                         </div>
                                     </div>
-                                    <div class="form-group bmd-form-group">
-                                        <div class="input-group" tooltip="Nomer Induk Siswa National">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="material-icons">reduce_capacity</i></div>
-                                            </div>
-                                            <input type="text" class="form-control" name="nisn" placeholder="Nomer Induk Siswa National" maxlength="12" required="">
-                                        </div>
-                                    </div>
+
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group bmd-form-group">
@@ -65,19 +58,16 @@
                                         </div>
                                     </div>
                                     <div class="form-group bmd-form-group">
-                                        <div class="input-group" tooltip="Kelas Berapa?">
+                                        <div class="input-group" tooltip="Pilih Kelas">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text"><i class="material-icons">class</i></div>
                                             </div>
-                                            <input type="number" class="form-control" name="kelas" placeholder="Kelas Berapa?" required="">
-                                        </div>
-                                    </div>
-                                    <div class="form-group bmd-form-group">
-                                        <div class="input-group" tooltip="Rombelnya Apa?">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="material-icons">school</i></div>
-                                            </div>
-                                            <input type="text" class="form-control" name="rombel" placeholder="Rombelnya Apa?" required="">
+                                            <select name="kelas" class="form-control">
+                                                <option disabled selected value="default">Pilih Kelas</option>
+                                                @foreach($kelas as $key)
+                                                <option value="{{$key->id_kelas}}">{{$key->nama." ".$key->nama_jurusan}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group bmd-form-group">
@@ -90,7 +80,14 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="form-group bmd-form-group">
+                                <div class="input-group" tooltip="Nomer Induk Siswa National">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="material-icons">reduce_capacity</i></div>
+                                    </div>
+                                    <input type="text" class="form-control" name="nisn" placeholder="Nomer Induk Siswa National" maxlength="12" required="">
+                                </div>
+                            </div>
 
                             <div class="form-group bmd-form-group">
                                 <div class="input-group" tooltip="Alamat">
@@ -155,23 +152,30 @@
                                     </div>
                                 </div>
 
+
                             </div>
                             <div class="col">
 
-                                <div class="form-group bmd-form-group">
-                                    <div class="input-group" tooltip="Nomer Induk Siswa National">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text"><i class="material-icons">reduce_capacity</i></div>
-                                        </div>
-                                        <input type="number" class="form-control" name="up_nisn" placeholder="Nomer Induk Siswa National" maxlength="10" required="">
-                                    </div>
-                                </div>
+
                                 <div class="form-group bmd-form-group">
                                     <div class="input-group" tooltip="Nomer Induk Sekolah">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text"><i class="material-icons">stop_circle</i></div>
                                         </div>
                                         <input type="number" class="form-control" name="up_no_induk" placeholder="Nomer Induk Sekolah" required="">
+                                    </div>
+                                </div>
+                                <div class="form-group bmd-form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="material-icons">class</i></div>
+                                        </div>
+                                        <select name="up_kelas" class="form-control">
+                                            <option disabled selected value="default">Pilih Kelas</option>
+                                            @foreach($kelas as $key)
+                                            <option value="{{$key->id_kelas}}">{{$key->nama." ".$key->nama_jurusan}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group bmd-form-group">
@@ -185,7 +189,14 @@
                             </div>
                         </div>
 
-
+                        <div class="form-group bmd-form-group">
+                            <div class="input-group" tooltip="Nomer Induk Siswa National">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="material-icons">reduce_capacity</i></div>
+                                </div>
+                                <input type="number" class="form-control" name="up_nisn" placeholder="Nomer Induk Siswa National" maxlength="10" required="">
+                            </div>
+                        </div>
                         <div class="form-group bmd-form-group">
                             <div class="input-group" tooltip="Alamat">
                                 <div class="input-group-prepend">
@@ -215,7 +226,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="import_siswa" method="post" enctype="multipart/form-data">
+            <form action="{{url('admin/import_siswa')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
 

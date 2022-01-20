@@ -99,124 +99,121 @@
         box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important
     }
 </style>
-<div class="container-fluid pt-2">
-    <div class="card mt-0 pt-3 p-2" style=" border: .5rem solid #d0d0d0;padding: 0rem 1rem !important;">
-        <div class="card mt-4 shadow" style="border:2px solid green">
-            <div class="card-body">
-                <table class=" w-100 table-1 mb-2">
-                    <tr>
-                        <td width="10%"><label for="">Kelas</label></td>
-                        <td width="1%">:</td>
-                        <td><select name="kelas" id="" class="form-control">
-                                <option value="1" disabled selected>Pilih Kelas</option>
-                                <option value="1">Kelas 12 IPA</option>
-                            </select></td>
-                        <td width="5%"></td>
-                        <td width="10%"><label for="">Nama</label></td>
-                        <td width="1%">:</td>
-                        <td><select name="siswa" id="select-siswa" class="form-control" disabled>
-                                <option value="1" disabled selected>Pilih Nama</option>
-                                <option value="1">M. Fathur Rosyidin</option>
-                            </select></td>
-                    </tr>
-
-                </table>
-            </div>
-        </div>
-
-        <div class="push-total">
-            <div class="total">
-                <span>Rp. 2.000.000</span>
-            </div>
-            <div class="button">
-                <button type="submit" class="btn btn-danger"><i class="material-icons">
-                        save
-                    </i> Simpan Pembayaran</button>
-            </div>
-            <div class="button">
-                <button type="submit" class="btn btn-info"><i class="material-icons">
-                        qr_code_scanner
-                    </i> Scan</button>
-            </div>
-        </div>
-        <hr>
-        <h6 class="text-center bg-warning">Administrasi yang perlu di Bayar</h6>
-        <div class="row">
-            <div class="col">
-                <table class=" w-100 mb-2">
-                    <tr>
-                        <td>SPP Bulanan</td>
-                        <td>:</td>
-                        <td class="text-right">Rp. 300.000</td>
-                    </tr>
-
-                </table>
-            </div>
-            <div class="col">
-                <table class=" w-100 mb-2">
-                    <tr>
-                        <td>SPP Bulanan</td>
-                        <td>:</td>
-                        <td class="text-right">Rp. 300.000</td>
-                    </tr>
-
-                </table>
-            </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col">
-                <h6>Biaya Dasar</h6>
-                <table class="table w-100 table-biaya-dasar">
-
-
-                    <tr class="bg-success text-white ">
-
-                        <th>Nama Biaya</th>
-                        <th>Dibayarkan</th>
-                        <th></th>
-                    </tr>
-
-                    <tbody class="on-target-biaya-dasar">
-
+<form action="{{url('pembayaran-save')}}" method="post">
+    @csrf
+    <div class="container-fluid pt-2">
+        <div class="card mt-0 pt-3 p-2" style=" border: .5rem solid #d0d0d0;padding: 0rem 1rem !important;">
+            <div class="card mt-4 shadow" style="border:2px solid green">
+                <div class="card-body">
+                    <table class=" w-100 table-1 mb-2">
                         <tr>
+                            <td width="10%"><label for="">Kelas</label></td>
+                            <td width="1%">:</td>
+                            <td width="39%"><select name="kelas" id="select-kelas" class="form-control">
+                                    <option value="1" disabled selected>Pilih Kelas</option>
+                                    @foreach($kelas as $key)
+                                    <option value="{{$key->id_kelas}}">{{$key->nama." ".$key->nama_jurusan}}</option>
+                                    @endforeach
+                                </select></td>
+                            <td width="10%"><label for="">Nama</label></td>
+                            <td width="1%">:</td>
+                            <td><select name="siswa" id="select-siswa" class="form-control" disabled>
+                                    <option value="1" disabled selected>Pilih Siswa</option>
 
-                            <td class="price">Total</td>
-                            <td class="total-dasar price">2.000.00</td>
-                            <td class="text-right"><button class="btn btn-danger btn-add-bdasar" id="" data-s="1"><i class="material-icons">
-                                        add_circle_outline
-                                    </i></button></td>
+                                </select></td>
                         </tr>
-                    </tbody>
 
-                </table>
+                    </table>
+                </div>
             </div>
-            <div class="col">
-                <h6>Biaya Tanggungan Jatuh Tempo</h6>
-                <table class="table w-100 table-biaya-jt">
-                    <tr class="bg-danger text-white">
 
-                        <th>Nama Biaya</th>
-                        <th>Dibayarkan</th>
-                        <th></th>
-                    </tr>
-                    <tbody class="on-target-biaya-jt">
+            <div class="push-total">
+                <div class="total">
+                    <span>Rp. 2.000.000</span>
+                </div>
+                <div class="button">
+                    <button type="submit" class="btn btn-danger"><i class="material-icons">
+                            save
+                        </i> Simpan Pembayaran</button>
+                </div>
+                <div class="button">
+                    <button type="submit" class="btn btn-info"><i class="material-icons">
+                            qr_code_scanner
+                        </i> Scan</button>
+                </div>
+            </div>
+            <hr>
+            <h6 class="text-center bg-warning">Administrasi yang perlu di Bayar</h6>
+            <div class="row">
+                <div class="col">
+                    <h6>Biaya Dasar</h6>
 
-                        <tr>
+                    <table class=" w-100 mb-2" id="info-bd">
 
-                            <td class="price">Total</td>
-                            <td class="total-dasar price">2.000.00</td>
-                            <td class="text-right"><button class="btn btn-success btn-add-bdasar" id="" data-s="2"><i class="material-icons">
-                                        add_circle_outline
-                                    </i></button></td>
+
+                    </table>
+                </div>
+                <div class="col">
+                    <h6>Biaya Tanggungan Jatuh Tempo</h6>
+                    <table class=" w-100 mb-2" id="info-bjt">
+
+
+                    </table>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <table class="table w-100 table-biaya-dasar">
+
+
+                        <tr class="bg-success text-white ">
+
+                            <th>Nama Biaya</th>
+                            <th>Dibayarkan</th>
+                            <th></th>
                         </tr>
-                    </tbody>
-                </table>
+
+                        <tbody class="on-target-biaya-dasar">
+
+                            <tr>
+
+                                <td class="price">Total</td>
+                                <td class="total-dasar price total-d text-right">0</td>
+                                <td class="text-right"><button class="btn btn-danger btn-add-bdasar" id="" data-s="1"><i class="material-icons">
+                                            add_circle_outline
+                                        </i></button></td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="col">
+                    <table class="table w-100 table-biaya-jt">
+                        <tr class="bg-danger text-white">
+
+                            <th>Nama Biaya</th>
+                            <th>Dibayarkan</th>
+                            <th></th>
+                        </tr>
+                        <tbody class="on-target-biaya-jt">
+
+                            <tr>
+
+                                <td class="price">Total</td>
+                                <td class="total-dasar price total-jt text-right">0</td>
+                                <td class="text-right"><button class="btn btn-success btn-add-bdasar" id="" data-s="2"><i class="material-icons">
+                                            add_circle_outline
+                                        </i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
         </div>
-
     </div>
-</div>
+</form>
 <div class="modal" tabindex="-1" role="dialog" id="modalAddPembayaran">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -242,19 +239,17 @@
 <script>
     $(document).ready(function() {
         $('#select-siswa').prop('selectedIndex', 0);
-        var biayaDasar = [
-            [0, "SPP", "0"],
-            [1, "LKS", "0"]
-        ];
-        var biayaJT = [
-            [0, "SPP_JT", "0"],
-            [1, "LKS_JT", "0"]
-        ];
+        $('#select-kelas').prop('selectedIndex', 0);
+        var biayaDasar = [];
+        var biayaJT = [];
         var statusModal = "";
-
         var biayaDasarActive = [];
         var biayaJTActive = [];
-        $(document).on('click', '.btn-add-bdasar', function() {
+
+
+
+        $(document).on('click', '.btn-add-bdasar', function(e) {
+            e.preventDefault();
             statusModal = $(this).data("s");
             attactBiaya();
             $("#modalAddPembayaran").modal("show");
@@ -290,18 +285,26 @@
             var html = "";
             var a = 0;
             var b = [];
+            var tahunAjaran = "";
             if (statusModal == "1") {
                 b = biayaDasar;
             } else {
                 b = biayaJT;
             }
-            console.log(statusModal);
+            console.log("cek biaya");
             console.log(b);
             for (let i = 0; i < Object.keys(b).length; i++) {
                 var active = "";
 
                 if (b[i][2] != "1") {
-                    html += '<button type="button" class="btn btn-outline-success ' + active + ' btn-ops" data-text="' + b[i][1] + '" data-index="' + b[i][0] + '" data-check="' + b[i][2] + '">' + b[i][1] + '</button>';
+                    if (b[i][4] != undefined) {
+
+                        if (tahunAjaran != b[i][4]) {
+                            html += '<h6 class="text-center mt-2 bg-warning">' + b[i][4] + '</h6>';
+                            tahunAjaran = b[i][4];
+                        }
+                    }
+                    html += '<button type="button" class="btn btn-outline-success ' + active + ' btn-ops" data-text="' + b[i][1] + ' ' + tahunAjaran + '" data-index="' + b[i][0] + '" data-ajaran="' + tahunAjaran + '" data-check="' + b[i][2] + '" data-id="' + b[i][3] + '">' + b[i][1] + '</button>';
                     a++;
                 }
 
@@ -315,8 +318,10 @@
             var ops = $(".btn-ops");
             console.log(ops);
             var html = '';
+            var ajaran = '';
             for (var i = 0; i < ops.length; i++) {
                 var idGenerate = makeid(5);
+
                 if (ops[i].attributes['data-check'].nodeValue == 1) {
                     if (statusModal == "1") {
 
@@ -327,7 +332,9 @@
                             html += '<tr id="' + idGenerate + '">' +
 
                                 '<td> ' + ops[i].innerText + ' </td>' +
-                                '<td class="bayar"><input type="text" class="form-control text-right without-rupiah" ></td>' +
+                                '<td class="bayar">' +
+                                '<input type="hidden" name="bdasarid[]" value="' + ops[i].attributes['data-id'].nodeValue + '">' +
+                                '<input type="text" class="form-control text-right biaya-d without-rupiah" name="bdasar[]"></td>' +
                                 '<td class="text-right"><button data-text="' + ops[i].innerText + '" data-tr="' + ops[i].attributes['data-index'].nodeValue + '" data-id="' + idGenerate + '" class="btn btn-default btn-remove-bdasar">' +
                                 '<i class="material-icons">' +
                                 'delete_outline' +
@@ -337,20 +344,25 @@
                     }
                     if (statusModal == "2") {
 
-                        var e = biayaJTActive.indexOf(ops[i].innerText);
+                        var e = biayaJTActive.indexOf(ops[i].attributes['data-text'].nodeValue);
                         console.log(e);
                         if (e == -1) {
-                            biayaJTActive.push(ops[i].innerText);
+                            biayaJTActive.push(ops[i].attributes['data-text'].nodeValue);
+                            ajaran = ops[i].attributes['data-ajaran'].nodeValue;
+
+
                             html += '<tr id="' + idGenerate + '">' +
 
-                                '<td> ' + ops[i].innerText + ' </td>' +
-                                '<td class="bayar"><input type="text" class="form-control text-right without-rupiah"></td>' +
+                                '<td> ' + ops[i].innerText + ' <span class="badge badge-info">' + ajaran + '</span> </td>' +
+                                '<td class="bayar"><input type="text" class="form-control text-right biaya-jt without-rupiah" name="bjt-' + ops[i].attributes['data-id'].nodeValue + '"></td>' +
                                 '<td class="text-right"><button data-text="' + ops[i].innerText + '" data-tr="' + ops[i].attributes['data-index'].nodeValue + '" data-id="' + idGenerate + '" class="btn btn-default btn-remove-bdasar">' +
                                 '<i class="material-icons">' +
                                 'delete_outline' +
                                 '</i></button></td>' +
                                 '</tr>';
                         }
+                        console.log("Check Ajaran");
+                        console.log(ops[i].attributes['data-ajaran'].nodeValue);
                     }
 
                 }
@@ -378,15 +390,131 @@
                 biayaDasarActive.splice(i, 1);
                 console.log(biayaDasar);
                 console.log(biayaDasarActive);
+
+                hitungTotalD();
+
+
             } else {
                 biayaJT[indexTr][2] = "0";
                 var i = biayaJTActive.indexOf(text);
                 biayaJTActive.splice(i, 1);
-                console.log(biayaJT);
-                console.log(biayaJTActive);
+                hitungTotalJT();
+
             }
 
         });
+        $("select[name=kelas]").change(function() {
+            var id = $(this).val();
+            $.ajax({
+                type: "get",
+                url: "{{url('pembayaran-get-siswa')}}/" + id,
+                dataType: "JSON",
+                success: function(response) {
+                    var html = '<option disabled selected>Pilih Siswa</option>';
+                    if (response.status) {
+                        for (let i = 0; i < response.data.length; i++) {
+                            html += '<option value="' + response.data[i].id_siswa + '">' + response.data[i].nama + '</option>';
+                        }
+                    }
+                    $("select[name=siswa]").removeAttr("disabled");
+                    $("select[name=siswa]").html(html);
+
+                }
+            });
+        });
+        $("select[name=siswa]").change(function() {
+            var id = $(this).val();
+            $.ajax({
+                type: "get",
+                url: "{{url('pembayaran-get-adm')}}/" + id,
+                dataType: "JSON",
+                success: function(response) {
+
+                    if (response.status) {
+                        // var biayaDasar = [
+                        //     [0, "SPP", "0"],
+                        //     [1, "LKS", "0"]
+                        // ];
+                        var htmlBd = "<tr><td colspan='3' class='bg-secondary text-light text-center'>Tahun Akademik : Sekarang</td><tr>";
+
+                        for (let i = 0; i < response.data.length; i++) {
+
+                            biayaDasar.push([i, response.data[i].nama_adm, "0", response.data[i].id_jenis_adm]);
+                            htmlBd += "<tr>" +
+                                "<td>" + response.data[i].nama_adm + "</td>" +
+                                "<td>:</td>" +
+                                "<td>Rp. " + response.data[i].value_adm + "</td>" +
+                                "<tr>";
+                        }
+                        $("#info-bd").html(htmlBd);
+                        var htmlJT = "";
+                        var indexArray = -1;
+                        for (let j = 0; j < response.data_before.length; j++) {
+                            htmlJT += "<tr><td colspan='3' class='bg-secondary text-light text-center'>Tahun Akademik : " + response.data_before[j].tahun_ajaran + "</td><tr>";
+                            var json = JSON.parse(response.data_before[j].value);
+                            for (let k = 0; k < json.length; k++) {
+                                indexArray++;
+                                biayaJT.push([indexArray, json[k].nama_adm, "0", json[k].id_jenis_adm, response.data_before[j].tahun_ajaran]);
+                                htmlJT += "<tr>" +
+                                    "<td>" + json[k].nama_adm + "</td>" +
+                                    "<td>:</td>" +
+                                    "<td>Rp. " + json[k].value_adm + "</td>" +
+                                    "<tr>";
+                            }
+                            $("#info-bjt").html(htmlJT);
+
+                        }
+                    }
+
+
+                }
+            });
+        });
+
+
+        $(document).on("keyup", ".biaya-d", function() {
+            hitungTotalD();
+        });
+        $(document).on("keyup", ".biaya-jt", function() {
+            hitungTotalJT();
+        });
+
+        function hitungTotalD() {
+            var totalD = 0;
+
+            $(".biaya-d").each(function(e) {
+                var val = $(this).val();
+
+                if (val == "") {
+                    val = "0";
+                }
+                val = val.replace(".", "");
+                console.log(val);
+
+                console.log("cek total => " + totalD);
+                totalD = totalD + parseInt(val);
+                console.log("cek total => " + totalD);
+                // console.log(result);
+            });
+            $(".total-d").text(formatRupiah(totalD.toString(), "."));
+        }
+
+        function hitungTotalJT() {
+            var totalJT = 0;
+            $(".biaya-jt").each(function(e) {
+                var val = $(this).val();
+
+                if (val == "") {
+                    val = "0";
+                }
+                val = val.replace(".", "");
+                console.log(val);
+
+                totalJT = totalJT + parseInt(val);
+                // console.log(result);
+            });
+            $(".total-jt").text(formatRupiah(totalJT.toString(), "."));
+        }
 
         function makeid(length) {
             var result = '';

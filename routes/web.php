@@ -74,7 +74,6 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/chart_pengeluaran', [PengeluaranController::class, 'chart']);
 
 	//download
-	Route::get('/download_excel_siswa', [PrintsController::class, 'download_excel_siswa'])->name('download_excel_siswa');
 	Route::get('/download_excel_pengeluaran', [PrintsController::class, 'download_excel_pengeluaran'])->name('download_excel_pengeluaran');
 
 
@@ -99,7 +98,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 	Route::get('/pemasukan', [HomeController::class, 'pemasukan']);
 	Route::get('/pengeluaran', [HomeController::class, 'pengeluaran']);
-	Route::get('/siswa', [HomeController::class, 'siswa']);
+
 	Route::get('/alumni', [HomeController::class, 'alumni']);
 	Route::get('/administrasi', [HomeController::class, 'administrasi']);
 	Route::get('/riwayat_laporan', [HomeController::class, 'riwayat_laporan']);
@@ -108,7 +107,6 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/tanggungan_ijazah', [HomeController::class, 'tanggungan_ijazah']);
 
 	//import
-	Route::post('/import_siswa', [SiswaController::class, 'import_siswa']);
 	Route::post('/import_pengeluaran', [PengeluaranController::class, 'import_pengeluaran']);
 
 	//pemasukan
@@ -143,14 +141,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('/delete_riwlap/{id}', [riwayatlaporanController::class, 'destroy']);
 
 
-	//siswa
-	Route::post('/addsiswa', [SiswaController::class, 'store']);
-	Route::get('/read_siswa_by/{id}', [SiswaController::class, 'edit']);
-	Route::post('/update_siswa/{id}', [SiswaController::class, 'update']);
-	Route::post('/delete_siswa/{id}', [SiswaController::class, 'destroy']);
-	Route::post('/search_siswa/{id}', [SiswaController::class, 'show']);
-	Route::post('/read_siswa', [SiswaController::class, 'index']);
-	Route::post('/read_siswa_alumni', [AlumniController::class, 'index']);
+
 
 
 	//tahun ajaran
@@ -167,6 +158,9 @@ Route::middleware(['auth'])->group(function () {
 
 	//pemabayaran
 	Route::get('/pembayaran', [CPembayaran::class, 'index']);
+	Route::get('/pembayaran-get-siswa/{id}', [CPembayaran::class, 'getSiswa']);
+	Route::get('/pembayaran-get-adm/{id}', [CPembayaran::class, 'getDataBiaya']);
+	Route::post('/pembayaran-save', [CPembayaran::class, 'save']);
 
 	//admin
 	Route::prefix('admin')->group(function () {
@@ -177,6 +171,10 @@ Route::middleware(['auth'])->group(function () {
 		Route::post('/kelas-save-update/{id}', [CKelas::class, 'saveUpdate']);
 		Route::get('/kelas-delete/{id}', [CKelas::class, 'destroy']);
 		Route::get('/kelas-datatable', [CKelas::class, 'datatable']);
+		Route::post('/kelas-check', [CKelas::class, 'checkKelas']);
+		Route::get('/kelas-add-siswa/{id}', [CKelas::class, 'addSiswa']);
+		Route::post('/kelas-save-add-siswa/{id}', [CKelas::class, 'addSiswaSave']);
+		Route::get('/kelas-detail-siswa/{id}', [CKelas::class, 'detailSiswa']);
 		### GURU ###
 		Route::get('/guru', [CGuru::class, 'index']);
 		Route::post('/guru-add', [CGuru::class, 'saveCreate']);
@@ -184,6 +182,18 @@ Route::middleware(['auth'])->group(function () {
 		Route::post('/guru-save-update/{id}', [CGuru::class, 'saveUpdate']);
 		Route::get('/guru-delete/{id}', [CGuru::class, 'destroy']);
 		Route::get('/guru-datatable', [CGuru::class, 'datatable']);
+		### SISWA ###
+		Route::get('/siswa', [HomeController::class, 'siswa']);
+		Route::post('/addsiswa', [SiswaController::class, 'store']);
+		Route::get('/read_siswa_by/{id}', [SiswaController::class, 'edit']);
+		Route::post('/update_siswa/{id}', [SiswaController::class, 'update']);
+		Route::post('/delete_siswa/{id}', [SiswaController::class, 'destroy']);
+		Route::post('/search_siswa/{id}', [SiswaController::class, 'show']);
+		Route::post('/read_siswa', [SiswaController::class, 'index']);
+		Route::post('/read_siswa_alumni', [AlumniController::class, 'index']);
+		Route::get('/download_excel_siswa', [PrintsController::class, 'download_excel_siswa'])->name('download_excel_siswa');
+		Route::post('/import_siswa', [SiswaController::class, 'import_siswa']);
+
 		### JURUSAN ###
 		Route::get('/jurusan', [CJurusan::class, 'index']);
 		Route::post('/jurusan-add', [CJurusan::class, 'saveCreate']);

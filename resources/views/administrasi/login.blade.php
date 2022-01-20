@@ -23,7 +23,7 @@
 						<div class="row">
 							<div class="col text-center">
 								<img style="width: 15%" src="{{ asset('public/assets/img/logo_sekolah.png') }}" alt="Generic placeholder image">
-								<h4 class="mt-3 mb-0 text-uppercase font-weight-bold">Login Administrasi</h4>
+								<h4 class="mt-3 mb-0 text-uppercase font-weight-bold">Login SIAKAD</h4>
 								<div class="alert alert-warning d-none {{session('display')}}" role="alert">
 									{{session('alert')}}
 								</div>

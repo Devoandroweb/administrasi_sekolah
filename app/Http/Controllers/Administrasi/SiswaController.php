@@ -60,10 +60,9 @@ class SiswaController extends Controller
         $siswa->nisn = $request->nisn;
         $siswa->no_induk = $request->no_induk;
         $siswa->kelas = $request->kelas;
-        $siswa->rombel = $request->rombel;
         $siswa->no_tlp = $request->no_tlp;
         $siswa->alamat = $request->alamat;
-        $siswa->password = Hash::make($request->password);
+        $siswa->password = Hash::make($request->no_induk);
         $siswa->save();
 
         $administrasi = new Administrasi;
@@ -127,11 +126,13 @@ class SiswaController extends Controller
      */
     public function update(Request $request, $id_siswa)
     {
+
         $datasiswa = DataSiswa::find($id_siswa);
         $datasiswa->nama = request('up_nama');
         $datasiswa->tmp_lahir = request('up_tmp_lahir');
         $datasiswa->tgl_lahir = request('up_tgl_lahir');
         $datasiswa->nisn = request('up_nisn');
+        $datasiswa->kelas = request('up_kelas');
         $datasiswa->no_tlp = request('up_no_tlp');
         $datasiswa->alamat = request('up_alamat');
 
@@ -173,34 +174,46 @@ class SiswaController extends Controller
         // import data
         Excel::import(new SiswaImport, public_path('/file_siswa/' . $nama_file));
 
-        // notifikasi dengan session
-        $request->session()->flash('sukses_import', 'Data Siswa Berhasil Diimport!');
-        $request->session()->flash('import_display', 'd-block');
 
 
-        $siswa = DB::table('data_siswa')->get();
-        foreach ($siswa as $key) {
-            // dd($key->no_induk);
-            $id_siswa_search = DB::table('administrasi')->where('no_induk_adm', $key->no_induk)->count();
-            // dd($id_siswa_search);
-            if ($id_siswa_search == 0) {
-                $administrasi = Administrasi::create(['no_induk_adm' => $key->no_induk]);
-                $administrasi->save();
-            }
-        }
+
+        // $siswa = DB::table('data_siswa')->get();
+        // foreach ($siswa as $key) {
+        //     // dd($key->no_induk);
+        //     $id_siswa_search = DB::table('administrasi')->where('no_induk', $key->no_induk)->count();
+        //     // dd($id_siswa_search);
+        //     if ($id_siswa_search == 0) {
+        //         $administrasi = Administrasi::create(['no_induk' => $key->no_induk]);
+        //         $administrasi->save();
+        //     }
+        // }
 
         // alihkan halaman kembali
-        return redirect('/siswa');
+        return redirect('/admin/siswa')
+            ->with('sukses_import', 'Data Siswa Berhasil Diimport!')
+            ->with('import_display', 'd-block');
     }
     /// datatabel json
     public function json_siswa()
     {
-        $model = DataSiswa::where('kelas', '>=', 10);
+        $model = DataSiswa::select(
+            "data_siswa.*",
+            "m_kelas.id_kelas",
+            "m_kelas.nama as nama_kelas",
+            "m_jurusan.id_jurusan",
+            "m_jurusan.nama as nama_jurusan"
+        )
+            ->join('m_kelas', 'm_kelas.id_kelas', '=', 'data_siswa.kelas', 'left')
+            ->join('m_jurusan', 'm_jurusan.id_jurusan', '=', 'm_kelas.id_jurusan', 'left');
         return DataTables::eloquent($model)
             ->addColumn('tanggal_lahir', function ($row) {
 
                 $tgl_lahir = Time::time_indo_convert($row->tgl_lahir);
                 return $tgl_lahir[0];
+            })
+            ->addColumn('nama_kelas', function ($row) {
+
+                return $row->nama_kelas . " " . $row->nama_jurusan;
             })
             ->addColumn('action', function ($row) {
                 $btn = '';
@@ -209,7 +222,7 @@ class SiswaController extends Controller
                 return $btn;
             })
 
-            ->rawColumns(['tanggal_lahir', 'action'])
+            ->rawColumns(['tanggal_lahir', 'action', 'nama_kelas'])
             ->addIndexColumn()
             ->toJson();
     }
