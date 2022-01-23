@@ -18,6 +18,7 @@
       <thead>
         <tr>
           <th class="font-weight-bold" width="5%">#</th>
+          <th class="font-weight-bold">No Induk</th>
           <th class="font-weight-bold">Nama</th>
           <th class="font-weight-bold">Kelas</th>
           <th class="text-center font-weight-bold" width="20%">Action</th>
@@ -107,12 +108,16 @@
             searchable: false
           },
           {
-            data: 'nama',
-            name: 'nama'
+            data: 'no_induk',
+            name: 'no_induk'
           },
           {
-            data: 'kelas',
-            name: 'kelas'
+            data: 'nama_siswa',
+            name: 'nama_siswa'
+          },
+          {
+            data: 'kelas_conv',
+            name: 'kelas_conv'
           },
           {
             data: 'action',

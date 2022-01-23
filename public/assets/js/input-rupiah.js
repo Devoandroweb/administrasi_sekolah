@@ -1,7 +1,7 @@
  /* Tanpa Rupiah */
- $(document).on("keyup",".without-rupiah",function (e) { 
-     $(this).val(formatRupiah($(this).val()))
- });
+//  $(document).on("keyup",".without-rupiah",function (e) { 
+//      $(this).val(formatRupiah($(this).val()))
+//  });
  /* Dengan Rupiah */
 //  var with_rupiah = document.getElementsByClassName('with-rupiah');
 //  with_rupiah.addEventListener('keyup', function(e)

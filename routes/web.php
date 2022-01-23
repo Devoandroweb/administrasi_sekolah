@@ -115,6 +115,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('/search_pemasukan/{id}', [PemasukanController::class, 'show']);
 	Route::post('/hapus_pemasukan/{id}', [PemasukanController::class, 'destroy']);
 	Route::post('/simpan_editpemasukan/{id}', [PemasukanController::class, 'update']);
+	Route::get('/pemasukan-datatable/{status}/{a}/{b}', [RekapitulasiController::class, "datatable"]);
 
 	//pengeluaran
 	Route::post('/simpan_pengeluaran', [PengeluaranController::class, 'store']);
@@ -127,7 +128,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/cetak_pengeluaran', [PengeluaranController::class, 'index']);
 	Route::get('/cetak_administrasi', [AdministrasiController::class, 'index']);
 	Route::get('/cetak_tanggungan_ijazah', [AdministrasiController::class, 'cetak_ijazah']);
-	Route::get('/cetak_struk', [PemasukanController::class, 'cetak_struk']);
+
 	Route::get('/cetak_administrasi_pers/{id}', [AdministrasiController::class, 'cetak_siswa']);
 	Route::get('/cetak_data_siswa', [SiswaController::class, 'cetak_data_siswa']);
 	Route::get('/cetak_tanggungan_lalu', [TanggunganlaluController::class, 'index']);
@@ -161,7 +162,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/pembayaran-get-siswa/{id}', [CPembayaran::class, 'getSiswa']);
 	Route::get('/pembayaran-get-adm/{id}', [CPembayaran::class, 'getDataBiaya']);
 	Route::post('/pembayaran-save', [CPembayaran::class, 'save']);
-
+	Route::get('/cetak_struk/{kode}', [CPembayaran::class, 'cetakStruk']);
 	//admin
 	Route::prefix('admin')->group(function () {
 		### KELAS ###

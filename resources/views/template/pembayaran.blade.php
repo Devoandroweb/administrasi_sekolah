@@ -129,15 +129,15 @@
 
             <div class="push-total">
                 <div class="total">
-                    <span>Rp. 2.000.000</span>
+                    <span class="total-bayar">Rp. 0</span>
                 </div>
                 <div class="button">
-                    <button type="submit" class="btn btn-danger"><i class="material-icons">
+                    <button type="submit" class="btn btn-danger btn-simpan"><i class="material-icons">
                             save
                         </i> Simpan Pembayaran</button>
                 </div>
                 <div class="button">
-                    <button type="submit" class="btn btn-info"><i class="material-icons">
+                    <button type="submit" class="btn btn-info "><i class="material-icons">
                             qr_code_scanner
                         </i> Scan</button>
                 </div>
@@ -295,16 +295,20 @@
             console.log(b);
             for (let i = 0; i < Object.keys(b).length; i++) {
                 var active = "";
-
+                var idAdmBefore = 0;
                 if (b[i][2] != "1") {
-                    if (b[i][4] != undefined) {
+                    if (b[i][5] != undefined) {
 
-                        if (tahunAjaran != b[i][4]) {
-                            html += '<h6 class="text-center mt-2 bg-warning">' + b[i][4] + '</h6>';
-                            tahunAjaran = b[i][4];
+                        if (tahunAjaran != b[i][5]) {
+                            html += '<h6 class="text-center mt-2 bg-warning">' + b[i][5] + '</h6>';
+                            tahunAjaran = b[i][5];
                         }
                     }
-                    html += '<button type="button" class="btn btn-outline-success ' + active + ' btn-ops" data-text="' + b[i][1] + ' ' + tahunAjaran + '" data-index="' + b[i][0] + '" data-ajaran="' + tahunAjaran + '" data-check="' + b[i][2] + '" data-id="' + b[i][3] + '">' + b[i][1] + '</button>';
+                    if (b[i][6] != undefined) {
+
+                        idAdmBefore = b[i][6];
+                    }
+                    html += '<button type="button" class="btn btn-outline-success btn-ops" data-val="' + b[i][4] + '" data-text="' + b[i][1] + ' ' + tahunAjaran + '" data-index="' + b[i][0] + '" data-ajaran="' + tahunAjaran + '" data-check="' + b[i][2] + '" data-id="' + b[i][3] + '" data-idadmbefore="' + idAdmBefore + '">' + b[i][1] + '</button>';
                     a++;
                 }
 
@@ -334,8 +338,8 @@
                                 '<td> ' + ops[i].innerText + ' </td>' +
                                 '<td class="bayar">' +
                                 '<input type="hidden" name="bdasarid[]" value="' + ops[i].attributes['data-id'].nodeValue + '">' +
-                                '<input type="text" class="form-control text-right biaya-d without-rupiah" name="bdasar[]"></td>' +
-                                '<td class="text-right"><button data-text="' + ops[i].innerText + '" data-tr="' + ops[i].attributes['data-index'].nodeValue + '" data-id="' + idGenerate + '" class="btn btn-default btn-remove-bdasar">' +
+                                '<input type="text" class="form-control text-right biaya-d without-rupiah" data-rupiah="0" name="bdasar[]" data-val="' + ops[i].attributes['data-val'].nodeValue + '"></td>' +
+                                '<td class="text-right"><button data-text="' + ops[i].innerText + '"  data-tr="' + ops[i].attributes['data-index'].nodeValue + '" data-id="' + idGenerate + '" data-not="0" class="btn btn-default btn-remove-bdasar">' +
                                 '<i class="material-icons">' +
                                 'delete_outline' +
                                 '</i></button></td>' +
@@ -354,8 +358,11 @@
                             html += '<tr id="' + idGenerate + '">' +
 
                                 '<td> ' + ops[i].innerText + ' <span class="badge badge-info">' + ajaran + '</span> </td>' +
-                                '<td class="bayar"><input type="text" class="form-control text-right biaya-jt without-rupiah" name="bjt-' + ops[i].attributes['data-id'].nodeValue + '"></td>' +
-                                '<td class="text-right"><button data-text="' + ops[i].innerText + '" data-tr="' + ops[i].attributes['data-index'].nodeValue + '" data-id="' + idGenerate + '" class="btn btn-default btn-remove-bdasar">' +
+                                '<td class="bayar">' +
+                                '<input type="hidden" name="bjtid_admbefore[]" value="' + ops[i].attributes['data-idadmbefore'].nodeValue + '">' +
+                                '<input type="hidden" name="bjtid[]" value="' + ops[i].attributes['data-id'].nodeValue + '">' +
+                                '<input type="text" class="form-control text-right biaya-jt without-rupiah" data-rupiah="0" data-val="' + ops[i].attributes['data-val'].nodeValue + '" name="bjt[]" data-not="0"></td>' +
+                                '<td class="text-right"><button data-text="' + ops[i].innerText + '"  data-tr="' + ops[i].attributes['data-index'].nodeValue + '" data-id="' + idGenerate + '" class="btn btn-default btn-remove-bdasar">' +
                                 '<i class="material-icons">' +
                                 'delete_outline' +
                                 '</i></button></td>' +
@@ -439,11 +446,11 @@
 
                         for (let i = 0; i < response.data.length; i++) {
 
-                            biayaDasar.push([i, response.data[i].nama_adm, "0", response.data[i].id_jenis_adm]);
+                            biayaDasar.push([i, response.data[i].nama_adm, "0", response.data[i].id_jenis_adm, response.data[i].value_adm]);
                             htmlBd += "<tr>" +
                                 "<td>" + response.data[i].nama_adm + "</td>" +
                                 "<td>:</td>" +
-                                "<td>Rp. " + response.data[i].value_adm + "</td>" +
+                                "<td>" + formatRupiah((response.data[i].value_adm).toString(), ".") + "</td>" +
                                 "<tr>";
                         }
                         $("#info-bd").html(htmlBd);
@@ -454,11 +461,11 @@
                             var json = JSON.parse(response.data_before[j].value);
                             for (let k = 0; k < json.length; k++) {
                                 indexArray++;
-                                biayaJT.push([indexArray, json[k].nama_adm, "0", json[k].id_jenis_adm, response.data_before[j].tahun_ajaran]);
+                                biayaJT.push([indexArray, json[k].nama_adm, "0", json[k].id_jenis_adm, json[k].value_adm, response.data_before[j].tahun_ajaran, response.data_before[j].id_tgg_prev]);
                                 htmlJT += "<tr>" +
                                     "<td>" + json[k].nama_adm + "</td>" +
                                     "<td>:</td>" +
-                                    "<td>Rp. " + json[k].value_adm + "</td>" +
+                                    "<td>" + formatRupiah((json[k].value_adm).toString(), ".") + "</td>" +
                                     "<tr>";
                             }
                             $("#info-bjt").html(htmlJT);
@@ -473,27 +480,37 @@
 
 
         $(document).on("keyup", ".biaya-d", function() {
+            var a = $(this).val();
+            console.log("cek data " + a)
+            $(this).attr("data-rupiah", a.replaceAll(".", ""));
+            $(this).val(formatRupiah(a));
             hitungTotalD();
+            totalBayar();
         });
         $(document).on("keyup", ".biaya-jt", function() {
+            var a = $(this).val();
+            $(this).attr("data-rupiah", a.replaceAll(".", ""));
+            $(this).val(formatRupiah(a))
             hitungTotalJT();
+            totalBayar();
         });
 
         function hitungTotalD() {
             var totalD = 0;
 
             $(".biaya-d").each(function(e) {
-                var val = $(this).val();
+                var val = $(this).attr("data-rupiah");
 
                 if (val == "") {
                     val = "0";
                 }
-                val = val.replace(".", "");
-                console.log(val);
 
-                console.log("cek total => " + totalD);
+
+                // console.log("cek total => " + totalD);
+                // console.log("cek sebelum convert => " + val);
+                // console.log("cek convert => " + parseInt(val));
                 totalD = totalD + parseInt(val);
-                console.log("cek total => " + totalD);
+                // console.log("cek total => " + totalD);
                 // console.log(result);
             });
             $(".total-d").text(formatRupiah(totalD.toString(), "."));
@@ -507,7 +524,7 @@
                 if (val == "") {
                     val = "0";
                 }
-                val = val.replace(".", "");
+                val = val.replaceAll(".", "");
                 console.log(val);
 
                 totalJT = totalJT + parseInt(val);
@@ -525,6 +542,62 @@
                     charactersLength));
             }
             return result;
+        }
+        $(document).on("keyup", ".biaya-d", function() {
+            var dataVal = $(this).data("val");
+            let val = $(this).val();
+            var a = val.qAll(".", "");
+            // console.log(a);
+            // console.log(dataVal);
+            // console.log(parseInt(a) > parseInt(dataVal));
+            if (parseInt(a) > parseInt(dataVal)) {
+                $(this).data("not", "1");
+                $(this).siblings("small").remove();
+                $(this).after("<small class='text-danger'>Tidak boleh lebih besar dari '" + dataVal + "' </small>");
+
+            } else {
+                $(this).data("not", "0");
+                $(this).siblings("small").remove();
+            }
+
+
+        });
+        $(".btn-simpan").click(function(e) {
+            e.preventDefault();
+            if (checkNot()) {
+
+                $("form").submit();
+            } else {
+                Swal.fire(
+                    'Warning!',
+                    'Ada biaya yang melebihi batas !!',
+                    'warning'
+                );
+            }
+        });
+
+        function totalBayar() {
+            var totalD = (($(".total-d").text()).replaceAll(".", "")).replaceAll("Rp", "");
+            var totalJT = (($(".total-jt").text()).replaceAll(".", "")).replaceAll("Rp", "");
+            console.log("toalD " + totalD);
+            console.log("toalD " + totalJT);
+
+            var totalDJT = parseInt(totalD) + parseInt(totalJT);
+            console.log("toal DJT " + totalDJT);
+            $(".total-bayar").text("Rp. " + formatRupiah(totalDJT.toString()));
+        }
+
+        function checkNot() {
+            var not = 0;
+            $(".without-rupiah").each(function(e) {
+                not = not + $(this).data("not");
+            });
+
+            if (not > 0) {
+                return false;
+            } else {
+                return true;
+            }
         }
     });
 </script>

@@ -9,8 +9,10 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
 use App\Models\Administrasi;
+use App\Models\DataSiswa as ModelsDataSiswa;
 use App\Models\MAdministrasi;
 use App\Models\MJenisAdministrasi;
+use DataSiswa;
 use DataTables;
 use PDF;
 
@@ -142,17 +144,18 @@ class AdministrasiController extends Controller
     }
     public function json_administrasi()
     {
-        $query = DB::table('administrasi')
-            ->join('data_siswa', 'administrasi.id_siswa', '=', 'data_siswa.id_siswa')
-            ->select('administrasi.*', 'data_siswa.nama', 'data_siswa.kelas', 'data_siswa.rombel')
+        $query = ModelsDataSiswa::select('administrasi.*', 'data_siswa.nama as nama_siswa', 'data_siswa.*', 'm_kelas.nama as nama_kelas', 'm_kelas.*', 'm_jurusan.nama as nama_jurusan')
+            ->join('administrasi', 'administrasi.id_siswa', '=', 'data_siswa.id_siswa', 'left')
+            ->join('m_kelas', 'data_siswa.kelas', '=', 'm_kelas.id_kelas', 'left')
+            ->join('m_jurusan', 'm_jurusan.id_jurusan', '=', 'm_kelas.id_jurusan', 'left')
             ->get();
 
         return DataTables::of($query)
-            ->addColumn('kelas', function ($row) {
+            ->addColumn('kelas_conv', function ($row) {
                 if ($row->kelas == 0) {
                     $kelas = "Lulus";
                 } else {
-                    $kelas = $row->kelas . " " . $row->rombel;
+                    $kelas = $row->nama_kelas . " " . $row->nama_jurusan;
                 }
                 return $kelas;
             })
@@ -164,7 +167,7 @@ class AdministrasiController extends Controller
 
                 return $btn;
             })
-            ->rawColumns(['kelas', 'action'])
+            ->rawColumns(['kelas_conv', 'action'])
             ->addIndexColumn()
             ->toJson();
     }

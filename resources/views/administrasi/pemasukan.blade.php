@@ -4,7 +4,152 @@
 
 
 @section('content')
+<style>
+  @import url(https://fonts.googleapis.com/css?family=Lato:400,700);
 
+  body {
+
+    font-family: 'Lato';
+  }
+
+  .heading-primary {
+    font-size: 2em;
+    padding: 2em;
+    text-align: center;
+  }
+
+  tbody>tr>td {
+    vertical-align: top !important;
+  }
+
+  .accordion dl,
+  .accordion-list {
+    /* border: 1px solid #ddd; */
+
+    &:after {
+      content: "";
+      display: block;
+      height: 1em;
+      width: 100%;
+      background-color: darken(#38cc70, 10%);
+    }
+  }
+
+  .accordion dd,
+  .accordion__panel {
+    background-color: #eee;
+    font-size: 1em;
+    line-height: 1.5em;
+  }
+
+  .accordion p {
+    padding: 1em 2em 1em 2em;
+  }
+
+  .accordion {
+    position: relative;
+    /* background-color: #eee; */
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2em 0 2em 0;
+  }
+
+  .accordionTitle,
+  .accordion__Heading {
+    /* background-color: #eee; */
+    text-align: left;
+    font-weight: 700;
+    /* padding: 1em; */
+    display: block;
+    text-decoration: none;
+    /* color: #fff; */
+    transition: background-color 0.5s ease-in-out;
+    /* border-bottom: 1px solid darken(#38cc70, 5%); */
+
+    &:before {
+      content: "+";
+      font-size: 1.5em;
+      line-height: 0.5em;
+      float: left;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    &:hover {
+      background-color: darken(#38cc70, 10%);
+    }
+  }
+
+  .accordionTitleActive,
+  .accordionTitle.is-expanded {
+    background-color: darken(#38cc70, 10%);
+
+    &:before {
+
+      transform: rotate(-225deg);
+    }
+  }
+
+  .accordionItem {
+    height: auto;
+    overflow: hidden;
+    //SHAME: magic number to allow the accordion to animate
+
+    max-height: 50em;
+    transition: max-height 1s;
+
+
+    @media screen and (min-width:48em) {
+      max-height: 15em;
+      transition: max-height 0.5s
+    }
+
+
+  }
+
+  .accordionItem.is-collapsed {
+    max-height: 0;
+  }
+
+  .no-js .accordionItem.is-collapsed {
+    max-height: auto;
+  }
+
+  .animateIn {
+    animation: accordionIn 0.45s normal ease-in-out both 1;
+  }
+
+  .animateOut {
+    animation: accordionOut 0.45s alternate ease-in-out both 1;
+  }
+
+  @keyframes accordionIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.9) rotateX(-60deg);
+      transform-origin: 50% 0;
+    }
+
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes accordionOut {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    100% {
+      opacity: 0;
+      transform: scale(0.9) rotateX(-60deg);
+    }
+  }
+</style>
 <div class="card p-2">
   <div class="card-header card-header-text card-header-success">
     <div class="card-text">
@@ -44,11 +189,8 @@
         <tr>
           <th class="text-center font-weight-bold">#</th>
           <th class="font-weight-bold">Tanggal</th>
-          <th class="font-weight-bold">Nama</th>
-          <th class="font-weight-bold">Kelas</th>
-          <th class="font-weight-bold">Uraian</th>
-          <th class="font-weight-bold" style="text-align: left;">Total</th>
-          <th class="text-center font-weight-bold">Actions</th>
+          <th class="font-weight-bold" width="70%">Uraian</th>
+          <th class="font-weight-bold" width="">Total</th>
         </tr>
       </thead>
       <tbody>
@@ -226,13 +368,12 @@
       console.log('cari tanggal : ' + param_tgl_awal + ' -> ' + param_tgl_akhir);
       var tgl_awal = param_tgl_awal;
       var tgl_akhir = param_tgl_akhir;
-      var url = "{{ url('json_pemasukan') }}";
+      var url = "{{ url('pemasukan-datatable') }}";
       console.log(url + '/' + status + '/' + tgl_awal + '/' + tgl_akhir);
 
       $('#datatable_pemasukan').DataTable({
         processing: true,
         serverSide: true,
-        "scrollX": true,
         ajax: {
           url: url + '/' + status + '/' + tgl_awal + '/' + tgl_akhir,
         },
@@ -242,47 +383,31 @@
         responsive: true,
         columns: [{
             "data": 'DT_RowIndex',
+            orderable: false,
+            searchable: false
+          },
+          {
+            data: 'tanggal_conv',
+            name: 'tanggal_conv',
+            className: "align-top"
+          },
+          {
+            data: 'uraian_conv',
+            name: 'uraian_conv',
+            className: "align-top"
+          },
+          {
+            data: 'saldo_conv',
+            name: 'saldo_conv',
             className: "align-top"
           },
 
-          {
-            data: 'tanggalfix',
-            name: 'tanggalfix',
-            className: "align-top"
-          },
-          {
-            data: 'nama',
-            name: 'nama',
-            className: "align-top",
-            className: "align-top"
-          },
-          {
-            data: 'kelas',
-            name: 'kelas',
-            className: "align-top"
-          },
-          {
-            data: 'uraianfix',
-            name: 'uraianfix'
-          },
-          {
-            data: 'total',
-            name: 'total',
-            className: "text-right numeric font-weight-bold align-top"
-          },
-          {
-            data: 'action',
-            name: 'action',
-            orderable: false,
-            searchable: false,
-            className: "text-center align-top"
-          },
 
         ],
-        columnDefs: [{
-          "targets": [4, 5],
-          "orderable": false
-        }],
+        // columnDefs: [{
+        //   "targets": [4, 5],
+        //   "orderable": false
+        // }],
         "drawCallback": function() {
 
           $('.numeric').attr('data-a-dec', ',');
@@ -548,8 +673,72 @@
       $('#datatable_pemasukan').DataTable().destroy();
       read_data(0, " ", " ");
     });
+    //uses classList, setAttribute, and querySelectorAll
+    //if you want this to work in IE8/9 youll need to polyfill these
+    (function() {
+      var d = document,
+        accordionToggles = $(document).find('.js-accordionTrigger'),
+        setAria,
+        setAccordionAria,
+        switchAccordion,
+        touchSupported = ('ontouchstart' in window),
+        pointerSupported = ('pointerdown' in window);
+      console.log(accordionToggles.prevObject[0]);
+      console.log(accordionToggles.length);
+      skipClickDelay = function(e) {
+        e.preventDefault();
+        e.target.click();
+      }
+
+      setAriaAttr = function(el, ariaType, newProperty) {
+        el.setAttribute(ariaType, newProperty);
+      };
+      setAccordionAria = function(el1, el2, expanded) {
+        switch (expanded) {
+          case "true":
+            setAriaAttr(el1, 'aria-expanded', 'true');
+            setAriaAttr(el2, 'aria-hidden', 'false');
+            break;
+          case "false":
+            setAriaAttr(el1, 'aria-expanded', 'false');
+            setAriaAttr(el2, 'aria-hidden', 'true');
+            break;
+          default:
+            break;
+        }
+      };
+      //function
+      switchAccordion = $(document).on("click", ".accordionTitle ", function(e) {
+        console.log("triggered");
+        e.preventDefault();
+        var thisAnswer = e.target.parentNode.nextElementSibling;
+        var thisQuestion = e.target;
+        if (thisAnswer.classList.contains('is-collapsed')) {
+          setAccordionAria(thisQuestion, thisAnswer, 'true');
+        } else {
+          setAccordionAria(thisQuestion, thisAnswer, 'false');
+        }
+        thisQuestion.classList.toggle('is-collapsed');
+        thisQuestion.classList.toggle('is-expanded');
+        thisAnswer.classList.toggle('is-collapsed');
+        thisAnswer.classList.toggle('is-expanded');
+
+        thisAnswer.classList.toggle('animateIn');
+      });
+      for (var i = 0, len = accordionToggles.prevObject.length; i < len; i++) {
+        if (touchSupported) {
+          accordionToggles.prevObject[i].addEventListener('touchstart', skipClickDelay, false);
+        }
+        if (pointerSupported) {
+          accordionToggles.prevObject[i].addEventListener('pointerdown', skipClickDelay, false);
+        }
+        accordionToggles.prevObject[i].addEventListener('click', switchAccordion, false);
+      }
+    })();
   });
 </script>
+<script>
 
+</script>
 
 @endpush
