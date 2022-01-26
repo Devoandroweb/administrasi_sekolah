@@ -22,6 +22,7 @@ use App\Http\Controllers\Administrasi\RekapitulasiController;
 use App\Http\Controllers\Administrasi\TahunAjaranController;
 use App\Http\Controllers\Administrasi\CJenisAdministrasi;
 use App\Http\Controllers\Administrasi\CPembayaran;
+use App\Http\Controllers\Administrasi\TanggunganLalu;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,13 +49,14 @@ Route::middleware(['auth'])->group(function () {
 	//jenis tanggungan
 	Route::get('/jenis-administrasi', [CJenisAdministrasi::class, 'index']);
 	Route::post('/jenis-administrasi-add', [CJenisAdministrasi::class, 'saveCreate']);
+	Route::post('/jenis-administrasi-update', [CJenisAdministrasi::class, 'saveUpdate']);
 	Route::post('/jenis-administrasi-show/{id}', [CJenisAdministrasi::class, 'show']);
 	Route::get('/jenis-administrasi-delete/{id}', [CJenisAdministrasi::class, 'destroy']);
 	Route::get('/jenis-administrasi-datatable', [CJenisAdministrasi::class, 'datatable']);
 
 	//administrasi
 	// Route::get('/administrasi', [AdministrasiController::class, 'index']);
-	Route::post('/read_adm_by/{id}', [AdministrasiController::class, 'edit']);
+	Route::get('/read_adm_by/{id}', [AdministrasiController::class, 'edit']);
 	Route::post('/read_adm_by_siswa/{id}', [AdministrasiController::class, 'showByIdSiswa']);
 	Route::post('/simpan_edit_adm/{id}', [AdministrasiController::class, 'update']);
 	Route::post('/tgg_prev_by/{id}', [AdministrasiController::class, 'get_tgg_prev']);
@@ -94,7 +96,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/export_excel', [PrintsController::class, 'export_excel']);
 	Route::get('/export_pemasukan', [PrintsController::class, 'export_pemasukan']);
 
-	//home
+	//home ------------------------------------------------------------------------------
 	Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 	Route::get('/pemasukan', [HomeController::class, 'pemasukan']);
 	Route::get('/pengeluaran', [HomeController::class, 'pengeluaran']);
@@ -103,7 +105,6 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/administrasi', [HomeController::class, 'administrasi']);
 	Route::get('/riwayat_laporan', [HomeController::class, 'riwayat_laporan']);
 	Route::get('/rekapitulasi', [HomeController::class, 'rekapitulasi']);
-	Route::get('/tanggungan_lalu', [HomeController::class, 'tanggungan_lalu']);
 	Route::get('/tanggungan_ijazah', [HomeController::class, 'tanggungan_ijazah']);
 
 	//import
@@ -157,12 +158,21 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('/simpan_edit_tanggungan_lalu/{id}', [TanggunganlaluController::class, 'update']);
 	Route::post('/hapus_tgg_prev/{id}', [TanggunganlaluController::class, 'destroy']);
 
-	//pemabayaran
+	//pembayaran
 	Route::get('/pembayaran', [CPembayaran::class, 'index']);
 	Route::get('/pembayaran-get-siswa/{id}', [CPembayaran::class, 'getSiswa']);
 	Route::get('/pembayaran-get-adm/{id}', [CPembayaran::class, 'getDataBiaya']);
 	Route::post('/pembayaran-save', [CPembayaran::class, 'save']);
 	Route::get('/cetak_struk/{kode}', [CPembayaran::class, 'cetakStruk']);
+
+
+
+	//tanggungan lalu --------------------------------------
+	Route::get('/tanggungan_lalu', [TanggunganlaluController::class, 'index']);
+	Route::get('/tanggungan_lalu-datatable', [TanggunganlaluController::class, 'datatable']);
+	Route::get('/tanggungan_lalu-edit/{id}', [TanggunganlaluController::class, 'show']);
+	Route::post('/tanggungan_lalu-simpan-edit/{id}', [TanggunganlaluController::class, 'update']);
+
 	//admin
 	Route::prefix('admin')->group(function () {
 		### KELAS ###

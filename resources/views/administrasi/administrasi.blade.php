@@ -11,7 +11,6 @@
       <h4 class="card-title">Administrasi</h4>
     </div>
     <a href="cetak_administrasi" target="_blank" class="btn btn-info float-right pl-2 mr-1 print_excel"><i class="material-icons">print</i>Cetak</a>
-    <a href="cetak_administrasi" class="btn btn-info float-right pl-2 mr-1"><i class="material-icons">print</i>Tambah</a>
   </div>
   <div class="card-body">
     <table class="table w-100" id="datatable_administrasi">

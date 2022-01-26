@@ -23,6 +23,15 @@ class CJenisAdministrasi extends Controller
 
         return response()->json(['status' => true, 'msg' => 'Sukses simpan data !!!']);
     }
+    public function saveUpdate(Request $request)
+    {
+        $jenisTanggungan = MJenisTanggungan::find($request->input("id"));
+        $jenisTanggungan->nama = $request->input("nama");
+        $jenisTanggungan->value = $request->input("nilai");
+        $jenisTanggungan->save();
+
+        return response()->json(['status' => true, 'msg' => 'Sukses simpan data !!!']);
+    }
     public function show($id)
     {
         $jenisTanggungan = MJenisTanggungan::where("id", $id)->first();

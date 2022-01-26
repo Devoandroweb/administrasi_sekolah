@@ -331,7 +331,6 @@ $tahun_ajaran = DB::table('tahun_ajaran')->select("*")->first();
 
   @include('template.include-js')
 
-
   <script type="text/javascript">
     chart_1();
     chart_2();

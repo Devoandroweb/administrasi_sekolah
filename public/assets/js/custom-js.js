@@ -49,3 +49,66 @@ function formCheck(formArray,form = null) {
     }
     return result;
 }
+
+
+// AKKORDION
+(function() {
+    var d = document,
+      accordionToggles = $(document).find('.js-accordionTrigger'),
+      setAria,
+      setAccordionAria,
+      switchAccordion,
+      touchSupported = ('ontouchstart' in window),
+      pointerSupported = ('pointerdown' in window);
+    console.log(accordionToggles.prevObject[0]);
+    console.log(accordionToggles.length);
+    skipClickDelay = function(e) {
+      e.preventDefault();
+      e.target.click();
+    }
+
+    setAriaAttr = function(el, ariaType, newProperty) {
+      el.setAttribute(ariaType, newProperty);
+    };
+    setAccordionAria = function(el1, el2, expanded) {
+      switch (expanded) {
+        case "true":
+          setAriaAttr(el1, 'aria-expanded', 'true');
+          setAriaAttr(el2, 'aria-hidden', 'false');
+          break;
+        case "false":
+          setAriaAttr(el1, 'aria-expanded', 'false');
+          setAriaAttr(el2, 'aria-hidden', 'true');
+          break;
+        default:
+          break;
+      }
+    };
+    //function
+    switchAccordion = $(document).on("click", ".accordionTitle ", function(e) {
+      console.log("triggered");
+      e.preventDefault();
+      var thisAnswer = e.target.parentNode.nextElementSibling;
+      var thisQuestion = e.target;
+      if (thisAnswer.classList.contains('is-collapsed')) {
+        setAccordionAria(thisQuestion, thisAnswer, 'true');
+      } else {
+        setAccordionAria(thisQuestion, thisAnswer, 'false');
+      }
+      thisQuestion.classList.toggle('is-collapsed');
+      thisQuestion.classList.toggle('is-expanded');
+      thisAnswer.classList.toggle('is-collapsed');
+      thisAnswer.classList.toggle('is-expanded');
+
+      thisAnswer.classList.toggle('animateIn');
+    });
+    for (var i = 0, len = accordionToggles.prevObject.length; i < len; i++) {
+      if (touchSupported) {
+        accordionToggles.prevObject[i].addEventListener('touchstart', skipClickDelay, false);
+      }
+      if (pointerSupported) {
+        accordionToggles.prevObject[i].addEventListener('pointerdown', skipClickDelay, false);
+      }
+      accordionToggles.prevObject[i].addEventListener('click', switchAccordion, false);
+    }
+  })();

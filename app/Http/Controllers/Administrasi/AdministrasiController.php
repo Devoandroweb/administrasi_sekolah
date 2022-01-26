@@ -96,12 +96,13 @@ class AdministrasiController extends Controller
     {
         //
 
-        $data_administrasi = DB::table('administrasi')
-            ->join('data_siswa', 'administrasi.id_siswa', '=', 'data_siswa.id_siswa')
-            ->select('administrasi.*', 'data_siswa.nama', 'data_siswa.kelas', 'data_siswa.rombel')
-            ->where('id_administrasi', $id)->first();
-        // dd($data_administrasi);
-        return json_encode($data_administrasi);
+        $query = ModelsDataSiswa::select('administrasi.*', 'data_siswa.nama as nama_siswa', 'data_siswa.*', 'm_kelas.nama as nama_kelas', 'm_kelas.*', 'm_jurusan.nama as nama_jurusan')
+            ->join('administrasi', 'administrasi.id_siswa', '=', 'data_siswa.id_siswa', 'left')
+            ->join('m_kelas', 'data_siswa.kelas', '=', 'm_kelas.id_kelas', 'left')
+            ->join('m_jurusan', 'm_jurusan.id_jurusan', '=', 'm_kelas.id_jurusan', 'left')
+            ->where("id_administrasi", $id)
+            ->first();
+        return view("administrasi.administrasi.edit")->with("data", $query);
     }
 
     /**
@@ -113,23 +114,22 @@ class AdministrasiController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $administrasi = MAdministrasi::where('id_administrasi', $id)->first();
         //looping data administrasi
         //[{"id_jenis_adm":3,"nama_adm":"SPP","value_adm":0}]
         $administrasiArray = [];
-        for ($i = 0; $i < count($request->nama_adm); $i++) {
+        for ($i = 0; $i < count($request->bdasarid); $i++) {
             array_push($administrasiArray, [
-                'id_jenis_adm' => $request->id_adm[$i],
-                'nama_adm' => $request->nama_adm[$i],
-                'value_adm' => $request->value_adm[$i],
+                'id_jenis_adm' => $request->bdasarid[$i],
+                'nama_adm' => $request->bdasar[$i],
+                'value_adm' => intval(str_replace(".", "", $request->bjt[$i])),
             ]);
         }
         $administrasi->value = json_encode($administrasiArray);
         $administrasi->update();
 
-        return json_encode(array(
-            "statusCode" => 200
-        ));
+        return redirect(url('administrasi'))->with('msg', 'Berhasil Update data Administrasi Siswa !!');
     }
 
     /**
@@ -161,7 +161,7 @@ class AdministrasiController extends Controller
             })
             ->addColumn('action', function ($row) {
                 $btn = '';
-                $btn .= '<a id="' . $row->id_administrasi . '" data-toggle="tooltip" data-placement="top" title="Edit Data Administrasi per Siswa" href="javascript:void(0)" class="btn btn-primary edit btn-sm"> <i class="material-icons">edit</i></a>';
+                $btn .= '<a id="' . $row->id_administrasi . '" data-toggle="tooltip" data-placement="top" title="Edit Data Administrasi per Siswa" href="' . url('read_adm_by/' . $row->id_administrasi) . '" class="btn btn-primary btn-sm"> <i class="material-icons">edit</i></a>';
                 $btn .= '<a href="' . url("cetak_administrasi_pers") . "/" . $row->id_administrasi . '" class="btn btn-warning print_per_siswa btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="Print Data per Siswa"> <i class="material-icons">print</i></a>';
                 $btn .= '<a href="' . url("administrasi-detail/" . $row->id_administrasi) . '" class="btn btn-warning print_per_siswa btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="Detail Siswa"> <span class="material-icons">visibility</span></a>';
 

@@ -30,8 +30,13 @@
             </div>
 
         </li>
-
-        <li class="nav-item" style="margin: 10px 15px 0; ">
+        <li class="nav-item @if ($active == 8) active @endif ">
+            <a class="nav-link" href="{{url('administrasi')}}">
+                <i class="material-icons">toys</i>
+                <p id="arrowAdministrasi">Administrasi</p>
+            </a>
+        </li>
+        <!-- <li class="nav-item" style="margin: 10px 15px 0; ">
             <div id="dropdownMenuAdministrasi" class="nav-link  @if ($active == 4) active-purple @endif " style="border-radius: 3px;">
                 <span class="link-menu-administrasi pb-2">
                     <i class="material-icons">toys</i>
@@ -45,7 +50,7 @@
                     </div>
                 </div>
             </div>
-        </li>
+        </li> -->
         {{--<li class="nav-item" style="margin: 10px 15px 0; ">
             <div id="dropdownMenu" class="nav-link  @if ($active == 5) active-purple @endif " style="border-radius: 3px;">
                 <span class="link-menu pb-2">
@@ -63,12 +68,7 @@
 
         </li>--}}
 
-        <li class="nav-item @if ($active == 6) active @endif ">
-            <a class="nav-link" href="riwayat_laporan">
-                <i class="material-icons"> local_printshop</i>
-                <p>Riwayat Laporan</p>
-            </a>
-        </li>
+
         <li class="nav-item @if ($active == 7) active @endif ">
             <a class="nav-link" href="cetak_rekapitulasi" target="_blank">
                 <i class="material-icons">history_edu</i>
@@ -76,7 +76,7 @@
             </a>
         </li>
         <li class="nav-item @if ($active == 8) active @endif ">
-            <a class="nav-link" href="tanggungan_lalu">
+            <a class="nav-link" href="{{url('tanggungan_lalu')}}">
                 <i class="material-icons">low_priority</i>
                 <p>Tanggungan Lalu</p>
             </a>

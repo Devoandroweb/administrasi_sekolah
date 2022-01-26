@@ -56,6 +56,7 @@
                 <div class="modal-body">
                     <form id="form_update" class="form">
                         @csrf
+                        <input type="hidden" name="id">
                         <div class="card-body">
                             <form action="">
                                 <div class="form-group">
@@ -140,6 +141,7 @@
         if (jmodal == "tambah") {
             modal.find("input[name=nama]").val("");
             modal.find("input[name=nilai]").val("");
+            modal.find(".btn-simpan").attr("data-type", 1);
             modal.modal("show");
         } else if (jmodal == "edit") {
             var id = $(this).attr("id");
@@ -149,8 +151,10 @@
                 dataType: "json",
                 success: function(response) {
                     if (response.status) {
+                        modal.find("input[name=id]").val(response.data.id);
                         modal.find("input[name=nama]").val(response.data.nama);
                         modal.find("input[name=nilai]").val(response.data.value);
+                        modal.find(".btn-simpan").attr("data-type", 2);
                         modal.modal("show");
                     }
                 }
@@ -158,29 +162,53 @@
 
         }
     });
-    //ajax add
     $(".btn-simpan").click(function() {
         var data = $(".modal").find("form").serialize();
-        $.ajax({
-            type: "post",
-            url: "{{url('jenis-administrasi-add')}}",
-            data: data,
-            dataType: "json",
-            success: function(response) {
-                if (response.status) {
-                    modal.modal("hide");
-                    $('#datatable').DataTable().destroy();
-                    readData();
-                    var html = '<div class="alert alert-success" role="alert">' + response.msg + '</div>';
-                    $(".msg").html(html);
+        //ajax add
+        if ($(this).data('type') == 1) {
 
-                } else {
-                    var html = '<div class="alert alert-danger" role="alert">' + response.msg + '</div>';
-                    $(".msg").html(html);
+            $.ajax({
+                type: "post",
+                url: "{{url('jenis-administrasi-add')}}",
+                data: data,
+                dataType: "json",
+                success: function(response) {
+                    if (response.status) {
+                        modal.modal("hide");
+                        $('#datatable').DataTable().destroy();
+                        readData();
+                        var html = '<div class="alert alert-success" role="alert">' + response.msg + '</div>';
+                        $(".msg").html(html);
+
+                    } else {
+                        var html = '<div class="alert alert-danger" role="alert">' + response.msg + '</div>';
+                        $(".msg").html(html);
+                    }
+
                 }
+            });
+        } else if ($(this).data('type') == 2) {
+            $.ajax({
+                type: "post",
+                url: "{{url('jenis-administrasi-update')}}",
+                data: data,
+                dataType: "json",
+                success: function(response) {
+                    if (response.status) {
+                        modal.modal("hide");
+                        $('#datatable').DataTable().destroy();
+                        readData();
+                        var html = '<div class="alert alert-success" role="alert">' + response.msg + '</div>';
+                        $(".msg").html(html);
 
-            }
-        });
+                    } else {
+                        var html = '<div class="alert alert-danger" role="alert">' + response.msg + '</div>';
+                        $(".msg").html(html);
+                    }
+
+                }
+            });
+        }
     });
     //hapus
     $(document).on("click", ".btn-delete", function(e) {
