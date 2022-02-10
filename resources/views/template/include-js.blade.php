@@ -3,7 +3,7 @@
 <script src="{{url('public/assets/js/core/bootstrap-material-design.min.js')}}" type="text/javascript"></script>
 <script src="{{url('public/assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
 <script type="text/javascript" src="{{url('public/assets/fontawesome/js/all.js')}}"></script>
-<script type="text/javascript" src="{{url('public/assets/js/custom-js.js')}}"></script>
+
 <!--  Google Maps Plugin    -->
 <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
 <!-- Chartist JS -->
@@ -65,3 +65,5 @@
 <script type="text/javascript" src="{{url('public/assets/date_picker_range/daterangepicker.js')}}"></script>
 <script src="{{url('public/assets/js/plugins/jquery.md5.js')}}"></script>
 <script src="{{url('public/assets/js/input-rupiah.js')}}" type="text/javascript"></script>
+<script src="{{url('public/assets/js/custom.js')}}" type="text/javascript"></script>
+<script src="{{url('public/assets/plugin/ckeditor/ckeditor.js')}}"></script>

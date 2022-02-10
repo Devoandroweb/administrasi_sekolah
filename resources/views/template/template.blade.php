@@ -196,7 +196,7 @@ $tahun_ajaran = DB::table('tahun_ajaran')->select("*")->first();
             <ul>
               <li>
                 <a href="#">
-                  ARJATI TEKHNO
+                  
                 </a>
               </li>
             </ul>
@@ -205,8 +205,8 @@ $tahun_ajaran = DB::table('tahun_ajaran')->select("*")->first();
             &copy;
             <script>
               document.write(new Date().getFullYear())
-            </script>, made with <i class="material-icons">favorite</i> by
-            <a href="https://www.creative-tim.com" target="_blank">ARJATI TEHKNO</a> Developer Web and Android.
+            </script><i class="material-icons">favorite</i> by
+            <a href="https://www.creative-tim.com" target="_blank">MAHASISWA UNIRA</a>
           </div>
           <!-- your footer here -->
         </div>
@@ -587,6 +587,7 @@ $tahun_ajaran = DB::table('tahun_ajaran')->select("*")->first();
   </script>
   @include('template.topbar-page-js');
   @stack('javascript')
+
 
 </body>
 

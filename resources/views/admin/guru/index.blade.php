@@ -20,6 +20,7 @@
             <thead>
                 <tr>
                     <th class="font-weight-bold" width="5%">#</th>
+                    <th class="font-weight-bold">Kode</th>
                     <th class="font-weight-bold">Nama</th>
                     <th class="font-weight-bold">No Handphone (WA)</th>
                     <th class="text-center font-weight-bold" width="20%">Action</th>
@@ -54,6 +55,10 @@
                         @csrf
                         <div class="card-body">
                             <form action="">
+                                <div class="form-group">
+                                    <label>Kode</label>
+                                    <input type="text" value="" name="kode" class="form-control" />
+                                </div>
                                 <div class="form-group">
                                     <label>Nama</label>
                                     <input type="text" value="" name="nama" class="form-control" />
@@ -103,6 +108,10 @@
                     searchable: false
                 },
                 {
+                    data: 'kode',
+                    name: 'kode'
+                },
+                {
                     data: 'nama',
                     name: 'nama'
                 },
@@ -140,6 +149,7 @@
                 dataType: "json",
                 success: function(response) {
                     if (response.status) {
+                        modal.find('input[name=kode]').val(response.data.kode);
                         modal.find('input[name=nama]').val(response.data.nama);
                         modal.find('input[name=no_telp]').val(response.data.no_telp);
                         modal.find('button').attr('data-type', 'edit');

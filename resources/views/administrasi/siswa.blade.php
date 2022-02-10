@@ -255,24 +255,7 @@
       })
 
     });
-    $('#inputFile1').click(function(event) {
 
-      $('#inputFileImport').click();
-    });
-    $('#inputFile1').on('input', function(event) {
-
-      $('#inputFileImport').click();
-
-    });
-    $('#inputFile2').click(function(event) {
-      $('#inputFileImport').click();
-    });
-    $('#inputFileImport').change(function(event) {
-      var file = $(this);
-      var files_obj = file[0].files;
-      var file_name = files_obj[0].name;
-      $('#inputFile1').val(file_name);
-    });
     $('input[name=kirim]').click(function(event) {
       /* Act on the event */
       $('#loading').removeClass('d-none');

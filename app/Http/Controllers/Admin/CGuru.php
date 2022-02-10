@@ -39,6 +39,7 @@ class CGuru extends Controller
     }
     public function credential($guru, $request)
     {
+        $guru->kode = $request->kode;
         $guru->nama = $request->nama;
         $guru->no_telp = $request->no_telp;
     }

@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\CAdministrator;
 use App\Http\Controllers\Admin\CGuru;
 use App\Http\Controllers\Admin\CJurusan;
 use App\Http\Controllers\Admin\CKelas;
+use App\Http\Controllers\Admin\CMapel;
+use App\Http\Controllers\Admin\CTugas;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Administrasi\Controller;
 
@@ -23,6 +25,7 @@ use App\Http\Controllers\Administrasi\TahunAjaranController;
 use App\Http\Controllers\Administrasi\CJenisAdministrasi;
 use App\Http\Controllers\Administrasi\CPembayaran;
 use App\Http\Controllers\Administrasi\TanggunganLalu;
+use App\Http\Controllers\CJadwal;
 
 /*
 |--------------------------------------------------------------------------
@@ -204,6 +207,27 @@ Route::middleware(['auth'])->group(function () {
 		Route::post('/read_siswa_alumni', [AlumniController::class, 'index']);
 		Route::get('/download_excel_siswa', [PrintsController::class, 'download_excel_siswa'])->name('download_excel_siswa');
 		Route::post('/import_siswa', [SiswaController::class, 'import_siswa']);
+		### MAPEL ###
+		Route::get('/mapel', [CMapel::class, 'index']);
+		Route::post('/mapel-add', [CMapel::class, 'saveCreate']);
+		Route::get('/mapel-show/{id}', [CMapel::class, 'show']);
+		Route::post('/mapel-save-update/{id}', [CMapel::class, 'saveUpdate']);
+		Route::get('/mapel-delete/{id}', [CMapel::class, 'destroy']);
+		Route::get('/mapel-datatable', [CMapel::class, 'datatable']);
+
+		### JADWAL ###
+		Route::get('/jadwal', [CJadwal::class, 'index']);
+		Route::get('/jadwal-edit/{id}', [CJadwal::class, 'show']);
+
+		### TUGAS ###
+		Route::get('/tugas', [CTugas::class, 'index']);
+		Route::get('/tugas-add', [CTugas::class, 'create']);
+		Route::post('/tugas-add-save', [CTugas::class, 'saveCreate']);
+		Route::get('/tugas-show/{id}', [CTugas::class, 'show']);
+		Route::post('/tugas-show-save/{id}', [CTugas::class, 'saveShow']);
+		Route::get('/tugas-delete/{id}', [CTugas::class, 'destroy']);
+		Route::get('/tugas-datatable', [CTugas::class, 'datatable']);
+		Route::get('/tugas-download-file/{file}', [CTugas::class, 'downloadFile']);
 
 		### JURUSAN ###
 		Route::get('/jurusan', [CJurusan::class, 'index']);
@@ -212,6 +236,7 @@ Route::middleware(['auth'])->group(function () {
 		Route::post('/jurusan-save-update/{id}', [CJurusan::class, 'saveUpdate']);
 		Route::get('/jurusan-delete/{id}', [CJurusan::class, 'destroy']);
 		Route::get('/jurusan-datatable', [CJurusan::class, 'datatable']);
+
 		### USER MANAGEMENT ###
 		Route::get('/user-management', [CAdministrator::class, 'index']);
 		Route::post('/user-management-add', [CAdministrator::class, 'saveCreate']);
@@ -219,5 +244,8 @@ Route::middleware(['auth'])->group(function () {
 		Route::post('/user-management-save-update/{id}', [CAdministrator::class, 'saveUpdate']);
 		Route::get('/user-management-delete/{id}', [CAdministrator::class, 'destroy']);
 		Route::get('/user-management-datatable', [CAdministrator::class, 'datatable']);
+
+		//Route Helper
+		Route::get('/get-siswa-by-kelas/{id_kelas}', [CTugas::class, 'getSiswaWhereKelasAjax']);
 	});
 });

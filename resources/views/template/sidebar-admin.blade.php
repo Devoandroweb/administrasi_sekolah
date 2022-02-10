@@ -25,7 +25,7 @@
         <li class="nav-item" style="margin: 10px 15px 0; ">
             <div id="dropdownMenu" class="nav-link dropdownMenu" style="border-radius: 3px;">
                 <span class="link-menu pb-2">
-                    <i class="material-icons">face</i>
+                    <i class="material-icons">dns</i>
                     <p id="arrow">Data Master <i class="material-icons float-right mr-0 ">keyboard_arrow_right</i></p>
                 </span>
 
@@ -34,12 +34,29 @@
                         <a class="link-menu-dropdown" href="{{url('admin/guru')}}">Data Guru</a>
                         <a class="link-menu-dropdown" href="{{url('admin/jurusan')}}">Data Jurusan</a>
                         <a class="link-menu-dropdown" href="{{url('admin/kelas')}}">Data Kelas</a>
+                        <a class="link-menu-dropdown" href="{{url('admin/mapel')}}">Data Mata Pelajaran</a>
                     </div>
                 </div>
             </div>
 
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link " href="{{url('admin/jadwal')}}">
+                <i class="material-icons">
+                    calendar_today
+                </i>
+                <p>Jadwal</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href="{{url('admin/tugas')}}">
+                <i class="material-icons">
+                    description
+                </i>
+                <p>Tugas</p>
+            </a>
+        </li>
         <li class="nav-item">
             <a class="nav-link " href="{{url('admin/user-management')}}">
                 <i class="material-icons">

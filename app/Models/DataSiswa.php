@@ -12,14 +12,14 @@ class DataSiswa extends Model
     protected $primaryKey = 'id_siswa';
 
     protected $fillable = [
-        'id_siswa','nama','tmp_lahir','tgl_lahir','nisn','no_induk','kelas','rombel','no_tlp','alamat','password'
+        'id_siswa', 'nama', 'tmp_lahir', 'tgl_lahir', 'nisn', 'no_induk', 'kelas', 'rombel', 'no_tlp', 'alamat', 'password'
     ];
     protected $casts = [
         'tgl_lahir' => 'timestamp',
     ];
     public function pemasukan()
     {
-        return $this->hasOne(Pemasukan::class,'no_induk_siswa');
+        return $this->hasOne(Pemasukan::class, 'no_induk_siswa');
     }
-    
+    protected $hidden = ['password'];
 }

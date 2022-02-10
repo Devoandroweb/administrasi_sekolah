@@ -70,4 +70,21 @@ class GF
         }
         return $text;
     }
+    public static function convertDayJadwal($day)
+    {
+        switch ($day) {
+            case 1:
+                return "senin";
+            case 2:
+                return "selasa";
+            case 3:
+                return "rabu";
+            case 4:
+                return "kamis";
+            case 5:
+                return "jumat";
+            case 6:
+                return "sabtu";
+        }
+    }
 }
