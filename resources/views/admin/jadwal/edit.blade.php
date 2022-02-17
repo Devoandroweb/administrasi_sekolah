@@ -100,20 +100,21 @@
         <div class="card-body mt-3">
             <!-- looping by kelas -->
             @foreach($kelas as $k)
-            <a class="accordion-day card p-2 pl-3 pr-3 position-relative" href="{{$k->id_kelas}}">
+            <a class="accordion-day card p-2 pl-3 pr-3 position-relative" href="#" data-href="{{$k->id_kelas}}">
                 <div class="head">
                     <h6 class="mb-0">KELAS {{$k->nama_kelas." ".$k->nama_jurusan}}</h6>
                 </div>
             </a>
             <div class="body d-none" id="{{$k->id_kelas}}"> 
-                <div class="row font-weight-bold my-2">
+                <div class="row font-weight-bold my-2 mx-auto">
                     <div class="col-1">Jam Ke</div>
                     <div class="col">Pengajar</div>
                     <div class="col">Mata Pelajaran</div>
+                    <div class="col-1"></div>
                 </div>
                 @foreach($jadwal as $key)
-                @if($key->id_kelas == $k->id_kelas)
-                    <div class="row">
+                    @if($key->id_kelas == $k->id_kelas)
+                    <div class="row mx-auto">
                         <div class="col-1 text-center d-flex align-items-center">
                             <span class="m-auto">{{$key->jam_ke}}</span>
                         </div>
@@ -139,9 +140,25 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="col-1">
+                            <button class="btn btn-sm btn-outline-primary btn-add">
+                                <i class="material-icons">
+                                    delete_outline
+                                    </i>
+                            </button>
+                        </div>
                     </div>
-                @endif
+                    @endif
                 @endforeach
+                <div class="row mt-2 mx-auto">
+                    <div class="col">
+                        <button class="btn btn-sm btn-outline-primary btn-add w-100">
+                            <i class="material-icons">
+                                add_circle_outline
+                                </i>
+                        </button>
+                    </div>
+                </div>
             </div>
             @endforeach
 
@@ -161,16 +178,18 @@
 
 <!-- accordion-kelas -->
 <script>
+    
     $(".accordion-day").click(function(e){
         e.preventDefault();
-        var val = $(this).attr("href");
+        var val = $(this).data("href");
         $("#"+val).toggleClass("d-none");
     });
     $(".btn-edit").click(function(e){
         e.preventDefault();
         var href = $(this).data('href');
         window.location = href;
-    })
-    </script>
+    });
+    
+</script>
 
 @endpush
