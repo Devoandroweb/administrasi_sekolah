@@ -98,6 +98,11 @@
     <form action="{{url('admin/jadwal-show-save/'.$day)}}" method="post">
         @csrf
         <div class="card-body mt-3">
+            @if(session("msg"))
+            <div class="alert alert-success">
+                {{session("msg")}}
+            </div>
+            @endif
             <!-- looping by kelas -->
             @foreach($kelas as $k)
             <a class="accordion-day card p-2 pl-3 pr-3 position-relative" href="#" data-href="{{$k->id_kelas}}">
@@ -112,16 +117,17 @@
                     <div class="col">Mata Pelajaran</div>
                     <div class="col-1"></div>
                 </div>
-                @foreach($jadwal as $key)
-                    @if($key->id_kelas == $k->id_kelas)
-                    <div class="row mx-auto">
-                        <div class="col-1 text-center d-flex align-items-center">
-                            <span class="m-auto">{{$key->jam_ke}}</span>
+                <input type="hidden" name="id_kelas[]" value="{{$k->id_kelas}}">
+                @for($i = 0; $i < 8; $i++)
+                    <input type="hidden" name="data[]" value="{{$k->id_kelas}}-{{$i+1}}">
+                    <div class="row mx-auto jadwal-{{$jadwal[$i]->id_kelas}}">
+                        <div class="col-1 text-center d-flex align-items-center jam">
+                            <span class="m-auto">{{$i+1}}</span>
                         </div>
                         <div class="col">
-                            <select name="" id="" class="form-control">
+                            <select name="pengajar[]" id="" class="form-control">
                                 @foreach($guru as $g)
-                                    @if($key->id_guru == $k->id_guru)
+                                    @if($jadwal[$i]->id_guru == $k->id_guru)
                                     <option value="{{$g->id_guru}}" selected>{{$g->nama}}</option>
                                     @else
                                     <option value="{{$g->id_guru}}">{{$g->nama}}</option>
@@ -130,9 +136,9 @@
                             </select>
                         </div>
                         <div class="col">
-                            <select name="" id="" class="form-control">
+                            <select name="mapel[]" id="" class="form-control">
                                 @foreach($mapel as $m)
-                                    @if($key->id_mapel == $m->id_mapel)
+                                    @if($jadwal[$i]->id_mapel == $m->id_mapel)
                                     <option value="{{$m->id_mapel}}" selected>{{$m->nama}}</option>
                                     @else
                                     <option value="{{$m->id_mapel}}">{{$m->nama}}</option>
@@ -140,25 +146,11 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-1">
-                            <button class="btn btn-sm btn-outline-primary btn-add">
-                                <i class="material-icons">
-                                    delete_outline
-                                    </i>
-                            </button>
-                        </div>
+                       
                     </div>
-                    @endif
-                @endforeach
-                <div class="row mt-2 mx-auto">
-                    <div class="col">
-                        <button class="btn btn-sm btn-outline-primary btn-add w-100">
-                            <i class="material-icons">
-                                add_circle_outline
-                                </i>
-                        </button>
-                    </div>
-                </div>
+                    
+                @endfor
+                
             </div>
             @endforeach
 
@@ -189,6 +181,7 @@
         var href = $(this).data('href');
         window.location = href;
     });
+    
     
 </script>
 

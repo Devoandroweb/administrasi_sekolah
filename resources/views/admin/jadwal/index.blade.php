@@ -155,26 +155,24 @@
                 $getJadwal = DB::table("jadwal")->where("hari",$i)->orderBy("jam_ke","asc")->get();
                 @endphp
                 <!-- looping jadwal berdasarkan jamke  -->
-                @for($l=0; $l < count($getJadwal);$l++)
+                @for($l=1; $l <= 8;$l++)
                 <tr>
-                    <td class="text-center">{{$getJadwal[$l]->jam_ke}}</td>
+                    <td class="text-center">{{$l}}</td>
                     @php  
                     $g = DB::table("jadwal")
                             ->select("m_guru.*","m_mapel.*","jadwal.*","m_mapel.nama as nama_mapel","m_guru.kode as kode_guru")
                             ->join("m_guru","m_guru.id_guru","=","jadwal.id_guru","left")
                             ->join("m_mapel","m_mapel.id_mapel","=","jadwal.id_mapel","left")
                             ->where("hari",$i)
-                            ->where("jam_ke",$getJadwal[$l]->jam_ke)
+                            ->where("jam_ke",$l)
                             ->get(); 
+                    
                     @endphp
                     @foreach($g as $r)
                         @foreach($idKelas as $k)
                             @if($k == $r->id_kelas)
                             <td class="text-center">{{$r->kode_guru}}</td>
                             <td class="text-center">{{$r->nama_mapel}}</td>
-                            @else
-                            <td></td>
-                            <td></td>
                             @endif
                         @endforeach
                     @endforeach

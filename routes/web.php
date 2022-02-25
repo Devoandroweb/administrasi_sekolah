@@ -25,7 +25,10 @@ use App\Http\Controllers\Administrasi\TahunAjaranController;
 use App\Http\Controllers\Administrasi\CJenisAdministrasi;
 use App\Http\Controllers\Administrasi\CPembayaran;
 use App\Http\Controllers\Administrasi\TanggunganLalu;
-use App\Http\Controllers\CJadwal;
+use App\Http\Controllers\Admin\CJadwal;
+use App\Http\Controllers\CAuth as ControllersCAuth;
+use App\Http\Controllers\Client\CAuth;
+use App\Http\Controllers\Client\CIndex;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,17 +41,16 @@ use App\Http\Controllers\CJadwal;
 |
 */
 
-Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware("guest");
-Route::get('/logout', [LoginController::class, 'logout']);
-Route::post('/aksilogin', [LoginController::class, 'aksiLogin']);
-Route::post('/error', [LoginController::class, 'error_connection']);
+Route::get('/', [CAuth::class, 'index'])->name('login')->middleware("guestuser:siswa");
+Route::post('/auth-siswa', [CAuth::class, 'auth']);
+Route::get('/logout-siswa', [CAuth::class, 'logout']);
+Route::get('/admin', [ControllersCAuth::class, 'index']);
+Route::get('/logout', [ControllersCAuth::class, 'logout']);
+Route::post('/aksilogin', [ControllersCAuth::class, 'aksiLogin']);
+Route::post('/error', [ControllersCAuth::class, 'error_connection']);
 
 
 Route::middleware(['auth'])->group(function () {
-
-
-
-
 	//jenis tanggungan
 	Route::get('/jenis-administrasi', [CJenisAdministrasi::class, 'index']);
 	Route::post('/jenis-administrasi-add', [CJenisAdministrasi::class, 'saveCreate']);
@@ -145,10 +147,6 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('/add_riw_siswa', [SiswaController::class, 'create']);
 	Route::post('/delete_riwlap/{id}', [riwayatlaporanController::class, 'destroy']);
 
-
-
-
-
 	//tahun ajaran
 	Route::post('/simpan_tahun_ajaran/{id}', [TahunAjaranController::class, 'update']);
 	Route::get('/halaman_tahun_ajaran', [TahunAjaranController::class, 'index']);
@@ -167,8 +165,6 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/pembayaran-get-adm/{id}', [CPembayaran::class, 'getDataBiaya']);
 	Route::post('/pembayaran-save', [CPembayaran::class, 'save']);
 	Route::get('/cetak_struk/{kode}', [CPembayaran::class, 'cetakStruk']);
-
-
 
 	//tanggungan lalu --------------------------------------
 	Route::get('/tanggungan_lalu', [TanggunganlaluController::class, 'index']);
@@ -218,6 +214,7 @@ Route::middleware(['auth'])->group(function () {
 		### JADWAL ###
 		Route::get('/jadwal', [CJadwal::class, 'index']);
 		Route::get('/jadwal-edit/{id}', [CJadwal::class, 'show']);
+		Route::post('/jadwal-show-save/{day}', [CJadwal::class, 'save']);
 
 		### TUGAS ###
 		Route::get('/tugas', [CTugas::class, 'index']);
@@ -247,5 +244,9 @@ Route::middleware(['auth'])->group(function () {
 
 		//Route Helper
 		Route::get('/get-siswa-by-kelas/{id_kelas}', [CTugas::class, 'getSiswaWhereKelasAjax']);
+	});
+
+	Route::prefix('siswa')->group(function () {
+
 	});
 });
