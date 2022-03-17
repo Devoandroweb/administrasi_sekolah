@@ -20,6 +20,7 @@
     <link href="{{url('public/client')}}/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="{{url('public/client')}}/dist/css/style.min.css" rel="stylesheet">
+    <link href="{{url('public/assets')}}/owl/owl.carousel.min.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -149,19 +150,23 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li class="sidebar-item {{generateActiveSideBar(url('client'))[0]}}"> <a
-                                class="sidebar-link waves-effect waves-dark sidebar-link {{generateActiveSideBar(url('client'))[1]}}>"
+                        <li class="sidebar-item {{generateActiveSideBar(url('client'))[0]}}"> 
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link {{generateActiveSideBar(url('client'))[1]}}>"
                                 href="index.html" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span
-                                    class="hide-menu">Dashboard</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="pages-profile.html" aria-expanded="false"><i
-                                    class="mdi mdi-account-network"></i><span class="hide-menu">Profile</span></a></li>
+                                    class="hide-menu">Dashboard</span></a>
+                        </li>
+                        <li class="sidebar-item {{generateActiveSideBar(url('client'))[1]}}"> <a
+                                class="sidebar-link waves-effect waves-dark sidebar-link
+                                {{generateActiveSideBar(url('client'))[1]}}" href="{{url('client/tugas')}}"
+                                aria-expanded="false"><i
+                                    class="mdi mdi-account-network"></i><span class="hide-menu">Tugas</span></a>
+                                </li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="table-basic.html" aria-expanded="false"><i class="mdi mdi-border-all"></i><span
-                                    class="hide-menu">Table</span></a></li>
+                                    class="hide-menu">Jadwal</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="icon-material.html" aria-expanded="false"><i class="mdi mdi-face"></i><span
-                                    class="hide-menu">Icon</span></a></li>
+                                    class="hide-menu">Administrasi</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="starter-kit.html" aria-expanded="false"><i class="mdi mdi-file"></i><span
                                     class="hide-menu">Blank</span></a></li>
@@ -186,7 +191,7 @@
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
-            <div class="page-breadcrumb">
+            {{--<div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-6">
                         <nav aria-label="breadcrumb">
@@ -199,7 +204,7 @@
                         <h1 class="mb-0 fw-bold">Dashboard</h1>
                     </div>
                 </div>
-            </div>
+            </div>--}}
             <!-- ============================================================== -->
             <!-- End Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
@@ -251,6 +256,7 @@
     <script src="{{url('public/client')}}/assets/libs/chartist/dist/chartist.min.js"></script>
     <script src="{{url('public/client')}}/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="{{url('public/client')}}/dist/js/pages/dashboards/dashboard1.js"></script>
+    <script src="{{url('public/assets')}}/owl/owl.carousel.min.js"></script>
     @stack("js")
 </body>
 

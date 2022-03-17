@@ -20,7 +20,7 @@ class CAuth extends Controller
             $request->session()->regenerate();
             //ke dashboard siswa
             
-            return redirect('/client/dashboard');
+            return redirect('/client');
         }else{
             return redirect()->back()->with("msg","No Induk atau Password salah !!");
         }
