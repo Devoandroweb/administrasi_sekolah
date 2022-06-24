@@ -14,6 +14,7 @@ use App\Models\MTanggungaSebelumnya;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
 class CPembayaran extends Controller
@@ -43,6 +44,35 @@ class CPembayaran extends Controller
     public function save(Request $request)
     {
         // dd($request->all());
+$strukWA = "";
+$strukWA = "Terima Kasih,
+Pembayaran atas nama M. Fathur 
+telah kami terima dengan 
+Dengan detail pembayaran sebagai berikut:
+
+# Tanggungan Pada Tahun Ajaran 2021 - 2022 # 
+1. SPP Rp. 90.000 
+
+# Tanggungan Pada Tahun Ajaran 2019 - 2020 # 
+1. SPP Rp. 90.000 
+
+# Total # 
+Rp. 160.000 
+
+# Uang Diterima # 
+Rp. 200.000 
+
+# Uang Kembalian # 
+Rp. 40.000 
+
+------------------------------------------------- 
+Tanggungan yang harus di bayar selanjutnya : 
+1. SPP (2019-2020) : Rp. 50.000 ";
+        $res = Http::get("http://localhost:8000/send-message",[
+            'number' => "6282132728556@c.us",
+            'msg' => $strukWA
+        ]);
+        dd($res);
         $siswa = DataSiswa::select("data_siswa.*", "data_siswa.nama as nama_siswa", "m_kelas.id_kelas", "m_kelas.nama as nama_kelas", "m_jurusan.*", "m_jurusan.nama as nama_jurusan")
             ->join("m_kelas", "data_siswa.kelas", "=", "m_kelas.id_kelas", "left")
             ->join("m_jurusan", "m_kelas.id_jurusan", "=", "m_kelas.id_jurusan", "left")
@@ -126,6 +156,7 @@ class CPembayaran extends Controller
         $pemasukan->save();
 
 
+        # MASUKKAN KE HISTORY TRANSAKSI #
         $hTransaksi = new HTransaksi;
         $hTransaksi->kode = $kode_trans;
         $hTransaksi->tanggal = $tanggal_trans;
@@ -138,6 +169,9 @@ class CPembayaran extends Controller
         $hTransaksi->total = $total_tanggungan_trans;
         $hTransaksi->terbayar = $trans_terbayar;
         $hTransaksi->save();
+
+        //kirim notif
+        
 
         return redirect(url("cetak_struk/" . Crypt::encryptString($hTransaksi->kode)));
     }

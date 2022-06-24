@@ -62,6 +62,19 @@
                                     <label>Nama Mapel</label>
                                     <input type="text" value="" name="nama" class="form-control" />
                                 </div>
+                                <div class="form-group">
+                                    <label>Pengajar</label>
+                                    <select name="pengajar" class="form-control" id="">
+                                        <option value="" selected disabled>--- Pilih Pengajar ----</option>
+                                        @foreach($guru as $key)
+                                        <option value="{{$key->id_guru}}">{{$key->nama}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                               <div class="form-group">
+                                   <label for="">Gambar</label>
+                                   <input type="file" class="form-file" name="gambar">
+                               </div>
                             </form>
                         </div>
                     </form>
@@ -142,6 +155,7 @@
                     if (response.status) {
                         modal.find('input[name=nama]').val(response.data.nama);
                         modal.find('input[name=kode]').val(response.data.kode);
+                        modal.find('select[name=pengajar]').val(response.data.id_guru);
                         modal.find('button').attr('data-type', 'edit');
                         modal.find('button').attr('id', id);
                         var data = $(modal).find("form").serializeArray();
@@ -156,8 +170,10 @@
         }
     });
     $(document).on('click', ".btn-simpan", function() {
+        var form = $(modal).find("form")[0];
         var data = $(modal).find("form").serializeArray();
         var checkForm = formCheck(data, $(modal).find("form"));
+        var dataFormWithFile = new FormData(form);
         var type = $(this).attr("data-type");
         var id = $(this).attr("id");
         console.log(type);
@@ -167,8 +183,9 @@
                 $.ajax({
                     type: "post",
                     url: "{{url('admin/mapel-add')}}",
-                    data: data,
-                    dataType: "json",
+                    data: dataFormWithFile,
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         if (response.status) {
                             modal.modal("hide");
@@ -188,8 +205,9 @@
                 $.ajax({
                     type: "post",
                     url: "{{url('admin/mapel-save-update')}}/" + id,
-                    data: data,
-                    dataType: "json",
+                    data: dataFormWithFile,
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         if (response.status) {
                             modal.modal("hide");

@@ -1,8 +1,5 @@
 @extends('template/template',['active' => $active ?? '2','title' => $title])
 
-
-
-
 @section('content')
 
 <div class="card p-2">
@@ -65,7 +62,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Nilai</label>
-                                    <input type="text" value="" name="nilai" class="form-control" />
+                                    <input type="text" value="" name="nilai" class="form-control numeric" />
                                 </div>
 
 
@@ -115,7 +112,8 @@
                 },
                 {
                     data: 'value',
-                    name: 'value'
+                    name: 'value',
+                    className :'numeric'
                 },
                 {
                     data: 'action',
@@ -127,9 +125,11 @@
             ],
             "drawCallback": function(settings) {
                 $('.dataTables_scrollBody').addClass('overflow-inherit');
-                $('.numeric').attr('data-a-dec', ',');
-                $('.numeric').attr('data-a-sep', '.');
-                $('.numeric').autoNumeric('init');
+                $(".numeric").autoNumeric('init', {
+                    aPad: false,
+                    aDec: ',',
+                    aSep: '.'
+                });
             }
 
         });
@@ -153,7 +153,8 @@
                     if (response.status) {
                         modal.find("input[name=id]").val(response.data.id);
                         modal.find("input[name=nama]").val(response.data.nama);
-                        modal.find("input[name=nilai]").val(response.data.value);
+                        modal.find("input[name=nilai]").autoNumeric('init');
+                        modal.find("input[name=nilai]").autoNumeric('set',response.data.value);
                         modal.find(".btn-simpan").attr("data-type", 2);
                         modal.modal("show");
                     }

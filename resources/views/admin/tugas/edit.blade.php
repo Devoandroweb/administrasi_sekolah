@@ -22,6 +22,23 @@
                     enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
+                        <label>Mata Pelajaran</label>
+                        <select name="id_mapel" class="form-control" id="">
+                            <option value="" disabled selected>-- Pilih Mata Pelajaran --</option>
+                            @foreach ($mapel as $key)
+                                @if ($key->id_mapel === $tugas->id_mapel)
+                                    <option value="{{ $key->id_mapel }}" selected>
+                                        {{ $key->nama }}
+                                    </option>
+                                @else
+                                    <option value="{{ $key->id_mapel }}">
+                                        {{ $key->nama }}
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <div>
                             <label>Judul</label>
                         </div>
@@ -113,6 +130,10 @@
                                 @endif
                             @endforeach
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Terkahir Pengumpulan</label>
+                        <input type="date" value="<?= date('Y-m-d',strtotime($tugas->expired)) ?>" name="expired" class="form-control" />
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>

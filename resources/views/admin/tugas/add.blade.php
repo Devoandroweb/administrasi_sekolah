@@ -20,6 +20,15 @@
             <form action="{{url('admin/tugas-add-save')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
+                    <label>Mata Pelajaran</label>
+                    <select name="id_mapel" class="form-control" id="">
+                        <option value="" disabled selected>-- Pilih Mata Pelajaran --</option>
+                        @foreach($mapel as $key)
+                        <option value="{{$key->id_mapel}}">{{$key->nama}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
                     <div>
                         <label>Judul</label>
                     </div>
@@ -90,6 +99,10 @@
                         <option value="{{$key->id_guru}}">{{$key->nama}}</option>
                         @endforeach
                     </select>
+                </div>
+                <div class="form-group">
+                    <label>Terkahir Pengumpulan</label>
+                    <input type="date" value="" name="expired" class="form-control" />
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>
             </form>

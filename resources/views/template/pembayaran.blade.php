@@ -598,21 +598,38 @@
             if (parseInt(a) > parseInt(dataVal)) {
                 $(this).data("not", "1");
                 $(this).siblings("small").remove();
-                $(this).after("<small class='text-danger'>Tidak boleh lebih besar dari '" + dataVal +
+                $(this).after("<small class='text-danger'>Tidak boleh lebih besar dari '" + formatRupiah(dataVal.toString(), ".") +
                     "' </small>");
 
             } else {
                 $(this).data("not", "0");
                 $(this).siblings("small").remove();
             }
+        });
+        $(document).on("keyup", ".biaya-jt", function() {
+            var dataVal = $(this).data("val");
+            let val = $(this).val();
+            var a = val.replaceAll(".", "");
+            // console.log(a);
+            // console.log(dataVal);
+            // console.log(parseInt(a) > parseInt(dataVal));
+            if (parseInt(a) > parseInt(dataVal)) {
+                $(this).data("not", "1");
+                $(this).siblings("small").remove();
+                $(this).after("<small class='text-danger'>Tidak boleh lebih besar dari '" + formatRupiah(dataVal.toString(), ".") +
+                    "' </small>");
 
-
+            } else {
+                $(this).data("not", "0");
+                $(this).siblings("small").remove();
+            }
         });
         $(".btn-simpan").click(function(e) {
             e.preventDefault();
             if (checkNot()) {
-
-                $("form").submit();
+                if(validasiInput()){
+                    $("form").submit();
+                };
             } else {
                 Swal.fire(
                     'Warning!',
@@ -663,6 +680,34 @@
             statusModal = "";
             biayaDasarActive = [];
             biayaJTActive = [];
+        }
+        // Validasi Input
+        
+        function validasiInput(){
+            var inputBiayaD = $(".biaya-d");
+            var result = true;
+            if(inputBiayaD.length == 0){
+                Swal.fire(
+                    'Warning!',
+                    'Tidak ada biaya yang di masukkan',
+                    'warning'
+                );
+                return false;
+            }else{
+                inputBiayaD.each(function(i,e){
+                    if(e.value == "" || e.value == 0){
+                        result = false;
+                    }
+                });
+            }
+            if(!result){
+                Swal.fire(
+                    'Warning!',
+                    'Tidak boleh ada biaya yang kosong atau 0',
+                    'warning'
+                );
+            }
+            return result;
         }
     });
 </script>

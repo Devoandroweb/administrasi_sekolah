@@ -3,16 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\MGuru;
 use App\Models\MMapel;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Facades\Storage;
 
 class CMapel extends Controller
 {
     public function index()
     {
         $title = "Mata Pelajaran";
-        return view("admin.mapel.index")->with("title", $title);
+        $guru = MGuru::all();
+        return view("admin.mapel.index")->with("title", $title)->with('guru',$guru);
     }
     public function saveCreate(Request $request)
     {
@@ -42,6 +45,14 @@ class CMapel extends Controller
     {
         $mapel->kode = $request->kode;
         $mapel->nama = $request->nama;
+        $mapel->id_guru = $request->pengajar;
+        if($request->hasFile('gambar')){
+            $file = $request->file('gambar');
+            $ext = $file->getClientOriginalExtension();
+            $namaFile = time().'.'.$ext;
+            $mapel->gambar = $namaFile;
+            Storage::putFileAs('/mapel',$file,$namaFile);
+        }
     }
     public function datatable(Request $request)
     {

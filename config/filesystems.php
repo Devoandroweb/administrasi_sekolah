@@ -78,10 +78,13 @@ return [
     |
     */
 
+    
+
     'links' => [
         public_path('storage') => storage_path('app/public'),
         public_path('tugas') => storage_path('app/tugas'),
         public_path('images') => storage_path('app/images'),
+        public_path('mapel') => storage_path('app/mapel'),
     ],
 
 ];

@@ -14,7 +14,7 @@ $json = json_decode($data->value);
     <div class="card p-2">
         <div class="card-header card-header-text card-header-danger">
             <div class="card-text">
-                <h4 class="card-title">Data Siswa</h4>
+                <h5 class="card-title font-weight-bold">{{$data->info_siswa}}</h5>
             </div>
 
             @if ($errors->has('file_import_siswa'))
@@ -27,21 +27,8 @@ $json = json_decode($data->value);
             </div>
         </div>
         <div class="card-body">
-            <table class="w-100 table table-stripped">
-                <tr>
-                    <td>Nama Siswa</td>
-                    <td width="1%">:</td>
-                    <td class="font-weight-bold">{{$data->nama_siswa}}</td>
-                    <td>Kelas</td>
-                    <td width="1%">:</td>
-                    <td class="font-weight-bold">{{$data->nama_kelas." ".$data->nama_jurusan}}</td>
-                    <td>No Induk</td>
-                    <td width="1%">:</td>
-                    <td class="font-weight-bold">{{$data->no_induk}}</td>
-                </tr>
-            </table>
-            <hr>
-            <div class="row">
+           
+            <div class="row" style="margin-top:3rem;">
                 @foreach($json as $key)
                 <div class="col-md-6">
                     <div class="form-group">

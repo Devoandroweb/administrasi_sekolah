@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Storage;
 
 trait UploadFile
 {
-    public function uploadFile($dir, $request)
+    public function uploadFile($path, $file)
     {
         $result = null;
-        $file = $request->file('file');
-        $namaFile = time() . "_" . $file->getClientOriginalName();
-        Storage::putFileAs($dir, $file, $namaFile);
+        $ext = $file->getClientOriginalExtension();
+        $namaFile = time().'.'.$ext;
+        Storage::putFileAs($path, $file, $namaFile);
         $result = $namaFile;
         return $result;
     }

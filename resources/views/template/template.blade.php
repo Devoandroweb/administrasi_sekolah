@@ -110,7 +110,8 @@ $tahun_ajaran = DB::table('tahun_ajaran')->select("*")->first();
 
 
   <div class="wrapper ">
-    <div class="sidebar" data-color="purple" data-background-color="white" style="overflow-y: visible; scrollbar-width: none; overflow-x: hidden;">
+    <div class="sidebar" data-color="purple" data-background-color="white"
+        style="overflow-y: hidden; scrollbar-width: 0; overflow-x: hidden;background-color: #fff; ">
       <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
@@ -332,8 +333,8 @@ $tahun_ajaran = DB::table('tahun_ajaran')->select("*")->first();
   @include('template.include-js')
 
   <script type="text/javascript">
-    chart_1();
-    chart_2();
+    // chart_1();
+    // chart_2();
     select_picker();
 
     function select_picker() {

@@ -10,4 +10,8 @@ class MGuru extends Model
     use HasFactory;
     protected $table = "m_guru";
     protected $primaryKey = "id_guru";
+    public function mapel()
+    {
+        return $this->hasOne(MMapel::class,'id_guru');
+    }
 }

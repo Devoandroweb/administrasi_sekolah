@@ -82,4 +82,5 @@ function generateKey(length) {
 
 
 
-  
+//   var a = $(".sidebar .sidebar-wrapper, .main-panel, .main").perfectScrollbar();
+//   a.destroy();

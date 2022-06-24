@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400&display=swap');
+body{
+    font-family: 'Poppins';
+}
+.text-white-important h6,
+.text-white-important label,
+.text-white-important i,
+.text-white-important .text-muted {
+    color: #fff !important;
+}
+.text-white-important hr{
+    background-color: #fff;
+}
+.card {
+    box-shadow: 3px 1px 15px -2px rgba(0, 0, 0, 0.25);
+}
+.table > thead{
+    text-transform: uppercase;
+    background: #F3F6F9;
+    border-radius: 6px;
+}
+.table >thead th:first-child {
+    border-radius: 6px 0 0 0;
+    -moz-border-radius: 6px 0 0 0;
+    -webkit-border-radius: 6px 0 0 0;
+}
+
+.table >thead th:last-child {
+    border-radius: 0 6px 0 0;
+    -moz-border-radius: 0 6px 0 0;
+    -webkit-border-radius: 0 6px 0 0;
+}
+.table{
+    border-spacing: 0;
+}
+tbody, td, tfoot, th, thead, tr {
+  border-color: inherit;
+    border-bottom-color: inherit;
+  border-width: 2px;
+}
+.shadow-none {
+    box-shadow: none !important;
+}
+td{
+    vertical-align: middle;
+}
+
+
+
+
+
+
+
+
+
+
+
+.ck-editor {
+    padding-top: 20px !important;
+}
+
+.ck-editor__editable_inline {
+    min-height: 500px;
+}

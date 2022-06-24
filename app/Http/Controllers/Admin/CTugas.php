@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\DataSiswa;
 use App\Models\MGuru;
 use App\Models\MKelas;
+use App\Models\MMapel;
 use DataTables;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
@@ -32,9 +33,11 @@ class CTugas extends Controller
             ->join("m_jurusan", "m_kelas.id_jurusan", "=", "m_jurusan.id_jurusan", "left")
             ->get();
         $guru = MGuru::get();
+        $mapel = MMapel::withDeleted();
         return view("admin.tugas.add")
             ->with("title", $title)
             ->with("kelas", $kelas)
+            ->with("mapel", $mapel)
             ->with("guru", $guru);
     }
     public function saveCreate(Request $request)
@@ -52,9 +55,11 @@ class CTugas extends Controller
             ->get();
         $guru = MGuru::get();
         $tugas = MTugas::where('id_tugas', $id)->first();
+        $mapel = MMapel::withDeleted();
         return view("admin.tugas.edit")
             ->with("title", $title)
             ->with("kelas", $kelas)
+            ->with("mapel", $mapel)
             ->with("tugas", $tugas)
             ->with("guru", $guru);
     }
@@ -72,20 +77,23 @@ class CTugas extends Controller
     }
     public function credential($tugas, $request)
     {
+        $tugas->id_mapel = $request->id_mapel;
         $tugas->kode = $request->kode;
         $tugas->judul = $request->judul;
         $tugas->isi = $request->isi;
         $tugas->type = $request->type;
         if ($request->file('file') != null) {
             if ($request->type == 1) {
-                $tugas->file = "all/" . $this->uploadFile("tugas/all", $request);
+                $tugas->file = "all/" . $this->uploadFile("tugas/all", $request->file('file'));
             } else {
-                $tugas->file = "individu/" . $this->uploadFile("tugas/one", $request);
+                $tugas->file = "individu/" . $this->uploadFile("tugas/one", $request->file('file'));
             }
         }
+        
         $tugas->id_kelas = $request->id_kelas;
         $tugas->id_guru = $request->id_guru;
         $tugas->id_siswa = $request->id_siswa;
+        $tugas->expired = $request->expired;
     }
     public function downloadFile($file)
     {

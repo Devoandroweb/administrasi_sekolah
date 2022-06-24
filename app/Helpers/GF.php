@@ -33,9 +33,9 @@ class GF
     public static function format_date($tgl, $tampil_hari = true, $with_menit = true, $full_char_mount = true)
     {
         if ($tgl != null ||  $tgl != "") {
-            $nama_hari    =   array(__("Sunday"), __("Monday"), __("Tuesday"), __("Wednesday"), __("Thursday"), __("Friday"), __("Saturday"));
+            $nama_hari    =   array(__("Senin"), __("Selasa"), __("Rabu"), __("Kamis"), __("Jumat"), __("Sabtu"), __("Minggu"));
             $nama_bulan   =   array(
-                1 => __("January"), __("February"), __("March"), __("April"), __("May"), __("June"), __("July"), __("August"), __("September"), __("October"), __("November"), __("December")
+                1 => __("Januari"), __("Februari"), __("Maret"), __("April"), __("Mei"), __("Juni"), __("Juli"), __("Gustus"), __("September"), __("Oktober"), __("November"), __("Desember")
             );
             $tahun        =   substr($tgl, 0, 4);
             if ($full_char_mount) {
@@ -85,6 +85,25 @@ class GF
                 return "jumat";
             case 6:
                 return "sabtu";
+        }
+    }
+    public static function convertDay($day)
+    {
+        switch ($day) {
+            case 'Sun':
+                return "senin";
+            case 'Mon':
+                return "selasa";
+            case 'Tue':
+                return "rabu";
+            case 'Wed':
+                return "kamis";
+            case 'Thu':
+                return "jumat";
+            case 'Fri':
+                return "sabtu";
+            case 'Sad':
+                return "minggu";
         }
     }
 }

@@ -44,7 +44,7 @@
         @csrf
         <div class="p-5 mt-4">
             <div class="row justify-content-center">
-                <div class="col-10">
+                <div class="col col-md-10">
                     <div class="card overflow-hidden">
                         <div class="row">
                             <div class="col-1 col-md-7 overflow-hidden">

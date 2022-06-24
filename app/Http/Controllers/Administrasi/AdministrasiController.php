@@ -96,7 +96,10 @@ class AdministrasiController extends Controller
     {
         //
 
-        $query = ModelsDataSiswa::select('administrasi.*', 'data_siswa.nama as nama_siswa', 'data_siswa.*', 'm_kelas.nama as nama_kelas', 'm_kelas.*', 'm_jurusan.nama as nama_jurusan')
+        $query = ModelsDataSiswa::select(
+            'administrasi.*',
+            'data_siswa.kelas',
+            DB::raw('concat(data_siswa.nama," | ",m_kelas.nama," ",m_jurusan.nama) as info_siswa'))
             ->join('administrasi', 'administrasi.id_siswa', '=', 'data_siswa.id_siswa', 'left')
             ->join('m_kelas', 'data_siswa.kelas', '=', 'm_kelas.id_kelas', 'left')
             ->join('m_jurusan', 'm_jurusan.id_jurusan', '=', 'm_kelas.id_jurusan', 'left')

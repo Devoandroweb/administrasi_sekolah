@@ -67,3 +67,15 @@
 <script src="{{url('public/assets/js/input-rupiah.js')}}" type="text/javascript"></script>
 <script src="{{url('public/assets/js/custom.js')}}" type="text/javascript"></script>
 <script src="{{url('public/assets/plugin/ckeditor/ckeditor.js')}}"></script>
+<script type="text/javascript">
+    $(".numeric").autoNumeric('init', {
+        aPad: false,
+        aDec: ',',
+        aSep: '.'
+    });
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>

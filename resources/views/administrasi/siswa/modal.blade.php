@@ -233,17 +233,8 @@
                     <div id="loading" class="d-none" style="position: absolute; z-index: 9999;text-align: center;width: 100%;  height: 100%">
                         <img class="m-auto" src="{{ url('public/image/808.gif') }}">
                     </div>
-                    <div class="form-group form-file-upload form-file-multiple">
-                        <input type="file" id="inputFileImport" class="d-none" name="file_import_siswa" multiple="">
-                        <div class="input-group">
-
-                            <input id="inputFile1" type="text" class="form-control inputFileVisible" readonly placeholder="Import File Excel" multiple>
-                            <span class="input-group-btn">
-                                <button type="button" id="inputFile2" class="btn btn-fab btn-round btn-info">
-                                    <i class="material-icons">layers</i>
-                                </button>
-                            </span>
-                        </div>
+                    <div class="form-group">
+                        <input type="file" id="inputFileImport" class="form-file" style="" name="file_import_siswa" multiple="">
                     </div>
                     <small>Unduh contoh Exelnya <u><a href="download_excel_siswa">disini</a></small></u>
                 </div>

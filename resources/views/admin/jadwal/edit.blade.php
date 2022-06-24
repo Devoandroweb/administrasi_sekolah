@@ -113,9 +113,9 @@
             <div class="body d-none" id="{{$k->id_kelas}}"> 
                 <div class="row font-weight-bold my-2 mx-auto">
                     <div class="col-1">Jam Ke</div>
-                    <div class="col">Pengajar</div>
                     <div class="col">Mata Pelajaran</div>
-                    <div class="col-1"></div>
+                    <div class="col">Pengajar</div>
+                
                 </div>
                 <input type="hidden" name="id_kelas[]" value="{{$k->id_kelas}}">
                 @for($i = 0; $i < 8; $i++)
@@ -125,27 +125,22 @@
                             <span class="m-auto">{{$i+1}}</span>
                         </div>
                         <div class="col">
-                            <select name="pengajar[]" id="" class="form-control">
-                                @foreach($guru as $g)
-                                    @if($jadwal[$i]->id_guru == $k->id_guru)
-                                    <option value="{{$g->id_guru}}" selected>{{$g->nama}}</option>
-                                    @else
-                                    <option value="{{$g->id_guru}}">{{$g->nama}}</option>
-                                    @endif
+                            <select name="mapel[]" id="" class="form-control select-mapel">
+                                @foreach($mapel as $m)
+                                @if($jadwal[$i]->id_mapel == $m->id_mapel)
+                                <option value="{{$m->id_mapel}}" data-guru="{{$k->id_guru}}" selected>{{$m->nama}}</option>
+                                @else
+                                <option value="{{$m->id_mapel}}" data-guru="{{$k->id_guru}}">{{$m->nama}}</option>
+                                @endif
                                 @endforeach
                             </select>
                         </div>
                         <div class="col">
-                            <select name="mapel[]" id="" class="form-control">
-                                @foreach($mapel as $m)
-                                    @if($jadwal[$i]->id_mapel == $m->id_mapel)
-                                    <option value="{{$m->id_mapel}}" selected>{{$m->nama}}</option>
-                                    @else
-                                    <option value="{{$m->id_mapel}}">{{$m->nama}}</option>
-                                    @endif
-                                @endforeach
+                            <select name="pengajar[]" id="" class="form-control">
+                                
                             </select>
                         </div>
+                        
                        
                     </div>
                     
@@ -181,7 +176,11 @@
         var href = $(this).data('href');
         window.location = href;
     });
-    
+    var guru = <?= $guru ?>;
+
+    $(".select-mapel").change(function(e){
+        $(this).val();
+    })
     
 </script>
 

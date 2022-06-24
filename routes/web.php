@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\CJadwal;
 use App\Http\Controllers\CAuth as ControllersCAuth;
 use App\Http\Controllers\Client\CAuth;
 use App\Http\Controllers\Client\CIndex;
+use App\Http\Controllers\CSetting;
 
 /*
 |--------------------------------------------------------------------------
@@ -171,7 +172,10 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/tanggungan_lalu-datatable', [TanggunganlaluController::class, 'datatable']);
 	Route::get('/tanggungan_lalu-edit/{id}', [TanggunganlaluController::class, 'show']);
 	Route::post('/tanggungan_lalu-simpan-edit/{id}', [TanggunganlaluController::class, 'update']);
-
+	
+	//setting
+	Route::get('/setting', [CSetting::class, 'index']);
+	
 	//admin
 	Route::prefix('admin')->group(function () {
 		### KELAS ###
@@ -244,6 +248,9 @@ Route::middleware(['auth'])->group(function () {
 
 		//Route Helper
 		Route::get('/get-siswa-by-kelas/{id_kelas}', [CTugas::class, 'getSiswaWhereKelasAjax']);
+		Route::get('/whatsapp', function(){
+			return view('whatsapp');
+		});
 	});
 
 	Route::prefix('siswa')->group(function () {

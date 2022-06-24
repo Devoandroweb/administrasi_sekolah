@@ -7,18 +7,20 @@ use App\Http\Controllers\Controller;
 use App\Models\MJenisTanggungan;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Facades\Http;
 
 class CJenisAdministrasi extends Controller
 {
     public function index()
     {
+        Http::get()
         return view("administrasi.jenis_administrasi")->with('title', 'Jenis Administrasi');
     }
     public function saveCreate(Request $request)
     {
         $jenisTanggungan = new MJenisTanggungan;
         $jenisTanggungan->nama = $request->input("nama");
-        $jenisTanggungan->value = $request->input("nilai");
+        $jenisTanggungan->value = str_replace(".","",$request->input("nilai"));
         $jenisTanggungan->save();
 
         return response()->json(['status' => true, 'msg' => 'Sukses simpan data !!!']);
@@ -27,8 +29,8 @@ class CJenisAdministrasi extends Controller
     {
         $jenisTanggungan = MJenisTanggungan::find($request->input("id"));
         $jenisTanggungan->nama = $request->input("nama");
-        $jenisTanggungan->value = $request->input("nilai");
-        $jenisTanggungan->save();
+        $jenisTanggungan->value = str_replace(".","",$request->input("nilai"));
+        $jenisTanggungan->update();
 
         return response()->json(['status' => true, 'msg' => 'Sukses simpan data !!!']);
     }
@@ -40,7 +42,7 @@ class CJenisAdministrasi extends Controller
     public function destroy($id)
     {
         MJenisTanggungan::where("id", $id)->delete();
-        return redirect(url('jenis-tanggungan'))->with("msg", "Suskes hapus data !!!");
+        return redirect(url('jenis-administrasi'))->with("msg", "Suskes hapus data !!!");
     }
     public function datatable(Request $request)
     {
@@ -49,7 +51,9 @@ class CJenisAdministrasi extends Controller
             ->addColumn('action', function ($row) {
                 $btn = '';
                 $btn .= '<a id="' . $row->id . '" data-type="edit" href="javascript:void(0)" class="btn btn-primary btn-edit btn-sm b-modal"> <i class="material-icons">edit</i></a>';
-                $btn .= '<a href="' . url("jenis-administrasi-delete") . "/" . $row->id . '" class="btn btn-warning btn-delete btn-sm" target="_blank"> <i class="material-icons">delete_outline</i></a>';
+                if($row->id != 1){
+                    $btn .= '<a href="' . url("jenis-administrasi-delete") . "/" . $row->id . '" class="btn btn-warning btn-delete btn-sm" target="_blank"> <i class="material-icons">delete_outline</i></a>';
+                }
                 return $btn;
             })
             ->rawColumns(['action'])
